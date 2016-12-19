@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class LLDownloadItem;
+
 @interface LLDownloadManager : NSObject
-+(instancetype)defaultManager;
++ (instancetype)defaultManager;
+- (void)startDownloadWithItem:(LLDownloadItem *)downloadItem;
+- (void)pauseDownloadWithItem:(LLDownloadItem *)downloadItem;
+- (void)cancelDownloadWithItem:(LLDownloadItem *)downloadItem;
+- (void)pauseAllDownloadTask;
+- (void)startAllDownloadTask;
 @end

@@ -22,7 +22,7 @@
 		B1620BA61E07F1F1000515E3 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B9B1E07F1F1000515E3 /* AFURLRequestSerialization.m */; };
 		B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B9D1E07F1F1000515E3 /* AFURLResponseSerialization.m */; };
 		B1620BA81E07F1F1000515E3 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B9F1E07F1F1000515E3 /* AFURLSessionManager.m */; };
-		B1620BAC1E07F355000515E3 /* LLDownloadItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAB1E07F355000515E3 /* LLDownloadItemModel.m */; };
+		B1620BAC1E07F355000515E3 /* LLDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAB1E07F355000515E3 /* LLDownloadItem.m */; };
 		B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */; };
 		B1620BB21E07F562000515E3 /* LLDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BB11E07F562000515E3 /* LLDownloadManager.m */; };
 /* End PBXBuildFile section */
@@ -57,8 +57,8 @@
 		B1620B9D1E07F1F1000515E3 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		B1620B9E1E07F1F1000515E3 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		B1620B9F1E07F1F1000515E3 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
-		B1620BAA1E07F355000515E3 /* LLDownloadItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadItemModel.h; sourceTree = "<group>"; };
-		B1620BAB1E07F355000515E3 /* LLDownloadItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadItemModel.m; sourceTree = "<group>"; };
+		B1620BAA1E07F355000515E3 /* LLDownloadItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadItem.h; sourceTree = "<group>"; };
+		B1620BAB1E07F355000515E3 /* LLDownloadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadItem.m; sourceTree = "<group>"; };
 		B1620BAD1E07F3D8000515E3 /* AFDownloadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDownloadRequestOperation.h; sourceTree = "<group>"; };
 		B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDownloadRequestOperation.m; sourceTree = "<group>"; };
 		B1620BB01E07F562000515E3 /* LLDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadManager.h; sourceTree = "<group>"; };
@@ -122,8 +122,8 @@
 		B1620B841E07E63E000515E3 /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				B1620BAA1E07F355000515E3 /* LLDownloadItemModel.h */,
-				B1620BAB1E07F355000515E3 /* LLDownloadItemModel.m */,
+				B1620BAA1E07F355000515E3 /* LLDownloadItem.h */,
+				B1620BAB1E07F355000515E3 /* LLDownloadItem.m */,
 				B1620BB01E07F562000515E3 /* LLDownloadManager.h */,
 				B1620BB11E07F562000515E3 /* LLDownloadManager.m */,
 			);
@@ -245,7 +245,7 @@
 				B1620BA61E07F1F1000515E3 /* AFURLRequestSerialization.m in Sources */,
 				B1620BA21E07F1F1000515E3 /* AFHTTPSessionManager.m in Sources */,
 				B1620BB21E07F562000515E3 /* LLDownloadManager.m in Sources */,
-				B1620BAC1E07F355000515E3 /* LLDownloadItemModel.m in Sources */,
+				B1620BAC1E07F355000515E3 /* LLDownloadItem.m in Sources */,
 				B1620BA31E07F1F1000515E3 /* AFNetworkReachabilityManager.m in Sources */,
 				B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */,
 				B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */,
@@ -316,7 +316,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -357,7 +357,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -369,6 +369,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LLDownloadManager/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = XHJ.LLDownloadManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -380,6 +381,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LLDownloadManager/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = XHJ.LLDownloadManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -405,6 +407,7 @@
 				B1620B831E07E62F000515E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
