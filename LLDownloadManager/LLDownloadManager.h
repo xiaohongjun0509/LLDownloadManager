@@ -1,13 +1,13 @@
 //
-//  LLDownloadItem.m
+//  LLDownloadManager.h
 //  LLDownloadManager
 //
 //  Created by xiaohongjun on 2016/12/19.
 //  Copyright © 2016年 XHJ. All rights reserved.
 //
 
-#import "LLDownloadItem.h"
+#import <Foundation/Foundation.h>
 
-@implementation LLDownloadItem
-
+@interface LLDownloadManager : NSObject
++(instancetype)defaultManager;
 @end
