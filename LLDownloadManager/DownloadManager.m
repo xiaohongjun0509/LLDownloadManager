@@ -14,10 +14,27 @@
 
 @property (nonatomic, strong) NSMutableDictionary *pathDictionary;
 @property (nonatomic, strong) NSMutableDictionary *fileHandlerDictionary;
+@property (nonatomic, strong) NSMutableArray *downloadArray;
 @end
 
 
 @implementation DownloadManager
+
++ (NSThread *)downloadThread{
+    static NSThread *_downloadThread;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _downloadThread = [[NSThread alloc] initWithBlock:^{
+            NSRunLoop *runloop = [NSRunLoop currentRunLoop];
+            [runloop addPort:[NSPort port] forMode:NSRunLoopCommonModes];
+            [runloop run];
+        }];
+        [_downloadThread setName:@"LLDownloadThread"];
+        [_downloadThread start];
+    });
+    return _downloadThread;
+}
+
 + (instancetype)defaultManager{
     static dispatch_once_t onceToken;
     static DownloadManager *_manager;
@@ -29,10 +46,12 @@
 
 - (void)startDownloadWithItem:(LLDownloadItem *)downloadItem{
     NSURLRequest *request = [self buildRequest:downloadItem];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-    [connection start];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+    //在子线程开启下载
+    [connection performSelector:@selector(start) onThread:[self.class downloadThread] withObject:nil waitUntilDone:NO];
     downloadItem.connection = connection;
     self.pathDictionary[connection.description] = downloadItem.targetPath;
+    [self.downloadArray addObject:downloadItem];
 }
 
 - (NSMutableURLRequest *)buildRequest:(LLDownloadItem *)downloadItem{
@@ -57,7 +76,46 @@
 
 
 - (void)cancelDownloadWithItem:(LLDownloadItem *)downloadItem{
+    [self.downloadArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        LLDownloadItem *item = obj;
+        if ([item isEqual:downloadItem]) {
+            *stop = YES;
+            [item.connection cancel];
+            [self cleanDownloadItem:downloadItem];
+            NSLog(@"------cancel------");
+        }
+    }];
+}
+
+- (void)pauseDownloadWithItem:(LLDownloadItem *)downloadItem{
+    [self.downloadArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        LLDownloadItem *item = obj;
+        if ([item isEqual:downloadItem]) {
+            *stop = YES;
+            [item.connection cancel];//只是取消了
+            NSLog(@"-----pause------");
+        }
+    }];
     
+    [self.downloadArray removeObject:downloadItem];
+}
+
+- (void)cleanDownloadItem:(LLDownloadItem *)item{
+    NSError *error = nil;
+    NSFileHandle *handler = self.fileHandlerDictionary[item.connection.description];
+    if (handler) {
+        [handler closeFile];
+        [self.fileHandlerDictionary removeObjectForKey:item.connection.description];
+    }
+    
+    [[NSFileManager defaultManager] removeItemAtPath:item.targetPath error:&error];
+    if (error == nil) {
+        NSLog(@"删除临时文件成功");
+    }else{
+        NSLog(@"删除临时文件失败");
+    }
+    [self.pathDictionary removeObjectForKey:item.connection.description];
+    [self.downloadArray removeObject:item];
 }
 
 - (NSString *)cacheFolder{
@@ -89,7 +147,6 @@
     [handler closeFile];
     [self.pathDictionary removeObjectForKey:key];
     [self.fileHandlerDictionary removeObjectForKey:key];
-    
     NSLog(@" finish");
 }
 
@@ -112,4 +169,11 @@
     return _fileHandlerDictionary;
 }
 
+
+-  (NSMutableArray *)downloadArray{
+    if (_downloadArray == nil) {
+        _downloadArray = [NSMutableArray array];
+    }
+    return _downloadArray;
+}
 @end

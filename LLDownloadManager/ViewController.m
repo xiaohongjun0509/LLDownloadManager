@@ -18,6 +18,7 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *sizeLabel;
 @property (nonatomic, strong) NSMutableArray *urls;
+@property (nonatomic, strong) LLDownloadItem *currentItem;
 @end
 
 @implementation ViewController
@@ -33,14 +34,18 @@
 
 - (IBAction)control:(id)sender {
     LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:PATH];
-    item.progressBlock = ^(NSString *target, NSInteger readSize, NSInteger totalSize){
-        self.sizeLabel.text = [[NSString alloc] initWithFormat:@"--read:%d--total:%d",readSize,totalSize];
-    };
+//    item.progressBlock = ^(NSString *target, NSInteger readSize, NSInteger totalSize){
+//        self.sizeLabel.text = [[NSString alloc] initWithFormat:@"--read:%d--total:%d",readSize,totalSize];
+//    };
     [[DownloadManager defaultManager] startDownloadWithItem:item];
+    self.currentItem = item;
+}
+- (IBAction)cancel:(id)sender {
+    [[DownloadManager defaultManager] cancelDownloadWithItem:self.currentItem];
 }
 - (IBAction)pause:(id)sender {
-     LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:PATH];
-    [[LLDownloadManager defaultManager] pauseDownloadWithItem:item];
+    
+    [[DownloadManager defaultManager] pauseDownloadWithItem:self.currentItem];
 }
 
 @end
