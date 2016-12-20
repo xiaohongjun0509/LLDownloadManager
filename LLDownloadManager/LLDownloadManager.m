@@ -14,7 +14,6 @@
 @interface LLDownloadManager ()
 @property (nonatomic, strong) NSMutableArray *downloadTasks;
 
-
 @end
 
 @implementation LLDownloadManager
@@ -32,6 +31,7 @@
     static NSOperationQueue *_downloadQueue;
     dispatch_once(&onceToken, ^{
         _downloadQueue = [[NSOperationQueue alloc] init];
+        _downloadQueue.maxConcurrentOperationCount = 1;//只支持同时下载一个。
     });
     return _downloadQueue;
 }
@@ -51,6 +51,7 @@
                 }];
                 downloadItem.downloadOperation = operation;
                 [[LLDownloadManager LLDownloadOperationQueue] addOperation:operation];
+                downloadItem.state = LLDownloadStateDownloading;
                 [self.downloadTasks addObject:downloadItem];
         }else{
             __block LLDownloadItem *exitItem = nil;
@@ -62,6 +63,7 @@
             }];
             if (exitItem) {
                   [exitItem.downloadOperation resume];
+                  exitItem.state = LLDownloadStateDownloading;
             }
         }
 }
@@ -72,9 +74,11 @@
         LLDownloadItem *item = obj;
         if ([downloadItem isEqual:item]) {
             [item.downloadOperation pause];
+            item.state = LLDownloadStatePause;
             *stop = YES;
         }
     }];
+    [self updateDownloadTasksState];
 }
 
 - (void)cancelDownloadWithItem:(LLDownloadItem *)downloadItem{
@@ -87,20 +91,27 @@
     [self.downloadTasks enumerateObjectsUsingBlock:^(LLDownloadItem *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj.downloadOperation pause];
     }];
+    [self updateDownloadTasksState];
 }
 - (void)startAllDownloadTask{
     [self.downloadTasks enumerateObjectsUsingBlock:^(LLDownloadItem *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj.downloadOperation resume];
     }];
+    [self updateDownloadTasksState];
 }
 #pragma mark - 更新任务队列的状态。
 - (void)updateDownloadTasksState{
-    [self.downloadTasks enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        LLDownloadItem *item = obj;
-        
-    }];
-    
-    self.downloadTasks writeToFile: atomically:<#(BOOL)#>
+    if ([NSKeyedArchiver archiveRootObject:self.downloadTasks toFile:[self downloadTasksStateSavePath]] == NO) {
+        NSLog(@"update state fail");
+    }else{
+        NSLog(@"update state successful");
+    }
+    [self restoreDownloadTasksState];
+}
+
+- (void)restoreDownloadTasksState{
+    NSData *data = [NSData dataWithContentsOfFile:[self downloadTasksStateSavePath]];
+    self.downloadTasks = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
 #pragma mark - private
@@ -128,5 +139,11 @@
 
 - (NSString *)downloadTasksStateSavePath{
     NSString *savePathDict = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *fileName = @"downloadTasksStateFile.archiver";
+    NSString *fullName = [savePathDict stringByAppendingPathComponent:fileName];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:fullName]){
+        [[NSFileManager defaultManager] createFileAtPath:fullName contents:nil attributes:nil];
+    }
+    return fullName;
 }
 @end

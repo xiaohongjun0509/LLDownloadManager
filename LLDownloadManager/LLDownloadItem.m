@@ -11,10 +11,9 @@
 
 static float segmentLength = 100 * 1024;//分片的长度是100K
 
-@interface LLDownloadItem ()<NSCoding>
+@interface LLDownloadItem ()
 
 @property (nonatomic, assign) float downloadedFileSize;
-@property (nonatomic, assign) LLDownloadState state;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, assign) NSInteger totalSegment;
 
@@ -49,20 +48,24 @@ static float segmentLength = 100 * 1024;//分片的长度是100K
     return NO;
 }
 
+/*
+ 这里不能用setValue：forKey在这种方式 这种会报错
+ */
 - (void)encodeWithCoder:(NSCoder *)aCoder{
-    [aCoder setValue:self.downloadOperation forKey:NSStringFromSelector(@selector(downloadOperation))];
-    [aCoder setValue:@(self.currentIndex).stringValue forKey:NSStringFromSelector(@selector(currentIndex))];
-    [aCoder setValue:@(self.totalSegment) forKey:NSStringFromSelector(@selector(totalSegment))];
-    [aCoder setValue:self.urlPath forKey:NSStringFromSelector(@selector(urlPath))];
+    [aCoder encodeObject:self.downloadOperation forKey:/*NSStringFromSelector(@selector(downloadOperation))*/@"downloadOperation"];
+    [aCoder encodeInteger:self.currentIndex forKey:NSStringFromSelector(@selector(currentIndex))];
+    [aCoder encodeInteger:self.totalSegment forKey:NSStringFromSelector(@selector(totalSegment))];
+    [aCoder encodeObject:self.urlPath forKey:NSStringFromSelector(@selector(urlPath))];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    LLDownloadItem *item = [[LLDownloadItem alloc] init];
-    item.downloadOperation = [aDecoder valueForKey:NSStringFromSelector(@selector(downloadOperation))];
-    item.currentIndex = [[aDecoder valueForKey:NSStringFromSelector(@selector(currentIndex))] integerValue];
-    item.totalSegment = [[aDecoder valueForKey:NSStringFromSelector(@selector(totalSegment))] integerValue];
-    item.urlPath = [[aDecoder valueForKey:NSStringFromSelector(@selector(urlPath))] stringValue];
-    return item;
+    if(self = [super init]){
+        self.downloadOperation = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(downloadOperation))];
+        self.currentIndex = [aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(currentIndex))];
+        self.totalSegment = [aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(totalSegment))];
+        self.urlPath = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(urlPath))];
+    }
+    return self;
 }
 @end
 

@@ -21,11 +21,11 @@ typedef NS_ENUM(NSInteger,LLDownloadState){
 };
 
 @class AFDownloadRequestOperation;
-@interface LLDownloadItem : NSObject
+@interface LLDownloadItem : NSObject<NSCoding>
 @property (nonatomic, strong) AFDownloadRequestOperation *downloadOperation;
 @property (nonatomic, assign, readonly) float downloadedFileSize;
 @property (nonatomic, copy) NSString *urlPath;
-@property (nonatomic, assign, readonly) LLDownloadState state;
+@property (nonatomic, assign) LLDownloadState state;
 @property (nonatomic, assign, readonly) NSInteger currentIndex;
 @property (nonatomic, copy) NSString *targetPath;
 @property (nonatomic, copy) void (^progressBlock)(NSString *targetPath, NSInteger downloadedSize, NSInteger    totalSize);
