@@ -20,13 +20,19 @@ typedef NS_ENUM(NSInteger,LLDownloadState){
     LLDownloadStateError
 };
 
+
+static long long segmentLength = 100 * 1024;//分片的长度是100K
+
 @class AFDownloadRequestOperation;
+
 @interface LLDownloadItem : NSObject<NSCoding>
 @property (nonatomic, strong) AFDownloadRequestOperation *downloadOperation;
-@property (nonatomic, assign, readonly) float downloadedFileSize;
+@property (nonatomic, assign) long long downloadedFileSize;
+@property (nonatomic, assign) long long fileSize;
 @property (nonatomic, copy) NSString *urlPath;
 @property (nonatomic, assign) LLDownloadState state;
-@property (nonatomic, assign, readonly) NSInteger currentIndex;
+@property (nonatomic, assign) NSInteger currentIndex;
+@property (nonatomic, assign) NSInteger totalSegment;
 @property (nonatomic, copy) NSString *targetPath;
 @property (nonatomic, copy) void (^progressBlock)(NSString *targetPath, NSInteger downloadedSize, NSInteger    totalSize);
 

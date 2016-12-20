@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "LLDownloadItem.h"
 #import "LLDownloadManager.h"
+#import "DownloadManager.h"
 
 #define PATH @"http://sw.bos.baidu.com/sw-search-sp/software/5062682326178/Baiduyun_mac_2.0.0.dmg"
 
@@ -35,7 +36,7 @@
     item.progressBlock = ^(NSString *target, NSInteger readSize, NSInteger totalSize){
         self.sizeLabel.text = [[NSString alloc] initWithFormat:@"--read:%d--total:%d",readSize,totalSize];
     };
-    [[LLDownloadManager defaultManager] startDownloadWithItem:item];
+    [[DownloadManager defaultManager] startDownloadWithItem:item];
 }
 - (IBAction)pause:(id)sender {
      LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:PATH];

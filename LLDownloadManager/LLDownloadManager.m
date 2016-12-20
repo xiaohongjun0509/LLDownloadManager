@@ -42,10 +42,15 @@
                 NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:downloadItem.urlPath] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
                 AFDownloadRequestOperation *operation = [[AFDownloadRequestOperation alloc] initWithRequest:request targetPath:downloadItem.targetPath shouldResume:YES];
                 [operation setProgressiveDownloadProgressBlock:^(AFDownloadRequestOperation *operation, NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile) {
+                    if (downloadItem.fileSize == 0) {
+                        downloadItem.fileSize = totalBytesExpected;
+                        downloadItem.totalSegment = totalBytesExpected % segmentLength == 0 ? totalBytesExpected / segmentLength : totalBytesExpected / segmentLength + 1;
+                    }
                     if (downloadItem.progressBlock) {
                         downloadItem.progressBlock(operation.targetPath,totalBytesRead,totalBytesExpected);
                     }
                 }];
+            
                 [operation setCompletionBlock:^{
                     [self.downloadTasks removeObject:downloadItem];
                 }];
@@ -78,6 +83,7 @@
             *stop = YES;
         }
     }];
+
     [self updateDownloadTasksState];
 }
 

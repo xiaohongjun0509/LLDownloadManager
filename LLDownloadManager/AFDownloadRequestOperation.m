@@ -144,11 +144,11 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
 - (NSString *)tempPath {
     NSString *tempPath = nil;
     if (self.fileIdentifier) {
-        tempPath = [[[self class] cacheFolder] stringByAppendingPathComponent:self.fileIdentifier];
+        tempPath = [[[self class] documentFolder] stringByAppendingPathComponent:self.fileIdentifier];
     }
     else if (self.targetPath) {
         NSString *md5URLString = [[self class] md5StringForString:self.targetPath];
-        tempPath = [[[self class] cacheFolder] stringByAppendingPathComponent:md5URLString];
+        tempPath = [[[self class] documentFolder] stringByAppendingPathComponent:md5URLString];
     }
     return tempPath;
 }
@@ -324,6 +324,24 @@ typedef void (^AFURLConnectionProgressiveOperationProgressBlock)(AFDownloadReque
         cacheFolder = nil;
     }
     return cacheFolder;
+}
+
++ (NSString *)documentFolder{
+    NSFileManager *filemgr = [NSFileManager new];
+    static NSString *documentFolder;
+    
+    if (!documentFolder) {
+        NSString *cacheDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+        documentFolder = [cacheDir stringByAppendingPathComponent:@"xiaohongjun"];
+    }
+    
+    // ensure all cache directories are there
+    NSError *error = nil;
+    if(![filemgr createDirectoryAtPath:documentFolder withIntermediateDirectories:YES attributes:nil error:&error]) {
+        NSLog(@"Failed to create cache directory at %@", documentFolder);
+        documentFolder = nil;
+    }
+    return documentFolder;
 }
 
 // calculates the MD5 hash of a key

@@ -9,13 +9,11 @@
 #import "LLDownloadItem.h"
 #import "objc/runtime.h"
 
-static float segmentLength = 100 * 1024;//分片的长度是100K
+
 
 @interface LLDownloadItem ()
 
-@property (nonatomic, assign) float downloadedFileSize;
-@property (nonatomic, assign) NSInteger currentIndex;
-@property (nonatomic, assign) NSInteger totalSegment;
+
 
 @end
 

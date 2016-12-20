@@ -25,6 +25,7 @@
 		B1620BAC1E07F355000515E3 /* LLDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAB1E07F355000515E3 /* LLDownloadItem.m */; };
 		B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */; };
 		B1620BB21E07F562000515E3 /* LLDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BB11E07F562000515E3 /* LLDownloadManager.m */; };
+		B1620BB61E091C1A000515E3 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BB51E091C1A000515E3 /* DownloadManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,8 @@
 		B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDownloadRequestOperation.m; sourceTree = "<group>"; };
 		B1620BB01E07F562000515E3 /* LLDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadManager.h; sourceTree = "<group>"; };
 		B1620BB11E07F562000515E3 /* LLDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadManager.m; sourceTree = "<group>"; };
+		B1620BB41E091C1A000515E3 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
+		B1620BB51E091C1A000515E3 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +98,7 @@
 		B1620B6C1E07E62F000515E3 /* LLDownloadManager */ = {
 			isa = PBXGroup;
 			children = (
+				B1620BB31E091B98000515E3 /* Tool2 */,
 				B1620BA91E07F212000515E3 /* AFDownloadOperation */,
 				B1620B8C1E07F1F1000515E3 /* AFNetworking */,
 				B1620B841E07E63E000515E3 /* Class */,
@@ -163,6 +167,15 @@
 				B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */,
 			);
 			name = AFDownloadOperation;
+			sourceTree = "<group>";
+		};
+		B1620BB31E091B98000515E3 /* Tool2 */ = {
+			isa = PBXGroup;
+			children = (
+				B1620BB41E091C1A000515E3 /* DownloadManager.h */,
+				B1620BB51E091C1A000515E3 /* DownloadManager.m */,
+			);
+			name = Tool2;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +264,7 @@
 				B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */,
 				B1620BA81E07F1F1000515E3 /* AFURLSessionManager.m in Sources */,
 				B1620B6F1E07E62F000515E3 /* main.m in Sources */,
+				B1620BB61E091C1A000515E3 /* DownloadManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
