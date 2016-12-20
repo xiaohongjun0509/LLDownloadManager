@@ -26,6 +26,7 @@
 		B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */; };
 		B1620BB21E07F562000515E3 /* LLDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BB11E07F562000515E3 /* LLDownloadManager.m */; };
 		B1620BB61E091C1A000515E3 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BB51E091C1A000515E3 /* DownloadManager.m */; };
+		B1620BB91E0943FE000515E3 /* DownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BB81E0943FE000515E3 /* DownloadItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,8 @@
 		B1620BB11E07F562000515E3 /* LLDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadManager.m; sourceTree = "<group>"; };
 		B1620BB41E091C1A000515E3 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
 		B1620BB51E091C1A000515E3 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
+		B1620BB71E0943FE000515E3 /* DownloadItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadItem.h; sourceTree = "<group>"; };
+		B1620BB81E0943FE000515E3 /* DownloadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +177,8 @@
 			children = (
 				B1620BB41E091C1A000515E3 /* DownloadManager.h */,
 				B1620BB51E091C1A000515E3 /* DownloadManager.m */,
+				B1620BB71E0943FE000515E3 /* DownloadItem.h */,
+				B1620BB81E0943FE000515E3 /* DownloadItem.m */,
 			);
 			name = Tool2;
 			sourceTree = "<group>";
@@ -262,6 +267,7 @@
 				B1620BA31E07F1F1000515E3 /* AFNetworkReachabilityManager.m in Sources */,
 				B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */,
 				B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */,
+				B1620BB91E0943FE000515E3 /* DownloadItem.m in Sources */,
 				B1620BA81E07F1F1000515E3 /* AFURLSessionManager.m in Sources */,
 				B1620B6F1E07E62F000515E3 /* main.m in Sources */,
 				B1620BB61E091C1A000515E3 /* DownloadManager.m in Sources */,

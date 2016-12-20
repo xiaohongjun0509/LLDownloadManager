@@ -24,7 +24,7 @@
         _urlPath = urlPath;
         _state = LLDownloadStateInit;
         _currentIndex = 0;
-        _targetPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//        _targetPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     }
     return self;
 }

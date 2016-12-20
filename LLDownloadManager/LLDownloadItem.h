@@ -38,4 +38,11 @@ static long long segmentLength = 100 * 1024;//分片的长度是100K
 
 - (instancetype)initWithDownloadPath:(NSString *)path;
 
+
+
+
+
+#pragma mark - used for Download Manager
+@property (nonatomic, strong) NSURLConnection *connection;
+
 @end

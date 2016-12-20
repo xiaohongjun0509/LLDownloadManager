@@ -27,11 +27,11 @@
     return _manager;
 }
 
-
 - (void)startDownloadWithItem:(LLDownloadItem *)downloadItem{
     NSURLRequest *request = [self buildRequest:downloadItem];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
     [connection start];
+    downloadItem.connection = connection;
     self.pathDictionary[connection.description] = downloadItem.targetPath;
 }
 
@@ -56,6 +56,10 @@
 }
 
 
+- (void)cancelDownloadWithItem:(LLDownloadItem *)downloadItem{
+    
+}
+
 - (NSString *)cacheFolder{
     NSString *cacheFolder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     return cacheFolder;
@@ -65,6 +69,9 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     NSLog(@"didReceiveResponse");
     NSString *downloadPath = self.pathDictionary[connection.description];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:downloadPath] == NO) {
+        [[NSFileManager defaultManager] createFileAtPath:downloadPath contents:nil attributes:nil];
+    }
     NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:downloadPath];
     self.fileHandlerDictionary[connection.description] = handler;
 }
@@ -77,9 +84,11 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    NSFileHandle *handler = self.fileHandlerDictionary[connection.description];
-    [handler class];
-    [self.fileHandlerDictionary removeObjectForKey:connection.description];
+    NSString *key = connection.description;
+    NSFileHandle *handler = self.fileHandlerDictionary[key];
+    [handler closeFile];
+    [self.pathDictionary removeObjectForKey:key];
+    [self.fileHandlerDictionary removeObjectForKey:key];
     
     NSLog(@" finish");
 }

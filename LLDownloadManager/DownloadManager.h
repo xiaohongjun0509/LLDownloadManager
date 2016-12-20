@@ -12,4 +12,7 @@
 @interface DownloadManager : NSObject
 + (instancetype)defaultManager;
 - (void)startDownloadWithItem:(LLDownloadItem *)downloadItem;
+- (void)pauseDownloadWithItem:(LLDownloadItem *)downloadItem;
+- (void)cancelDownloadWithItem:(LLDownloadItem *)downloadItem;
+
 @end
