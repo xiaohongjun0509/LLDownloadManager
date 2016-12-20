@@ -10,14 +10,17 @@
 #import "LLDownloadItem.h"
 #import "LLDownloadManager.h"
 #import "DownloadManager.h"
+#import "TableViewCell.h"
 
 #define PATH @"http://sw.bos.baidu.com/sw-search-sp/software/5062682326178/Baiduyun_mac_2.0.0.dmg"
 
 
 
-@interface ViewController ()
+@interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *sizeLabel;
 @property (nonatomic, strong) NSMutableArray *urls;
+@property (nonatomic, strong) NSMutableArray *items;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) LLDownloadItem *currentItem;
 @end
 
@@ -26,10 +29,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.urls = [NSMutableArray array];
-    [self.urls addObject:@"http://nj02all01.baidupcs.com/file/f53ed1b592629a4ab8db9e14f353cd17?bkt=p3-000054ecfdf32a134c50bb26b07d628a0fc6&fid=1847281134-250528-142752429379424&time=1482201478&sign=FDTAXGERLBH-DCb740ccc5511e5e8fedcff06b081203-99jkUccMtVEP60yk88UI2bR5big%3D&to=nj2hb&fm=Nan,B,T,nc&sta_dx=123674022&sta_cs=&sta_ft=ccc&sta_ct=6&sta_mt=6&fm2=Nanjing02,B,T,nc&newver=1&newfm=1&secfm=1&flow_ver=3&pkey=000054ecfdf32a134c50bb26b07d628a0fc6&sl=81723471&expires=8h&rt=pr&r=497902716&mlogid=8220534862221085061&vuk=1847281134&vbdid=741220362&fin=04-racmulticastconnection.ccc&fn=04-racmulticastconnection.ccc&slt=pm&uta=0&rtype=1&iv=0&isw=0&dp-logid=8220534862221085061&dp-callid=0.1.1&csl=256&csign=T6ZYIp6GCquM%2FFzdvRi%2BmeMm9mM%3D"];
-    [self.urls addObject:@"http://nj02all01.baidupcs.com/file/80bdbbeaf7303e708c086ac49535bc55?bkt=p3-00003f5e71ce413be8d2f4abcf9ee12b6163&fid=1847281134-250528-520260786882400&time=1482201488&sign=FDTAXGERLBH-DCb740ccc5511e5e8fedcff06b081203-zT%2FIOV156Mzh2aEks8x7MBcyBo8%3D&to=nj2hb&fm=Nan,B,T,nc&sta_dx=76146008&sta_cs=&sta_ft=ccc&sta_ct=6&sta_mt=6&fm2=Nanjing02,B,T,nc&newver=1&newfm=1&secfm=1&flow_ver=3&pkey=00003f5e71ce413be8d2f4abcf9ee12b6163&sl=81723471&expires=8h&rt=pr&r=626743103&mlogid=8220537448044037339&vuk=1847281134&vbdid=741220362&fin=08-rac%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95%E4%B9%8B%E6%98%A0%E5%B0%84.ccc&fn=08-rac%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95%E4%B9%8B%E6%98%A0%E5%B0%84.ccc&slt=pm&uta=0&rtype=1&iv=0&isw=0&dp-logid=8220537448044037339&dp-callid=0.1.1&csl=256&csign=T6ZYIp6GCquM%2FFzdvRi%2BmeMm9mM%3D"];
-    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:@"TableViewCell"];
+    [self.urls addObject:@"http://jaist.dl.sourceforge.net/project/machoview/MachOView-2.4.9200.dmg"];
+    [self.urls addObject:@"http://m4.pc6.com/xuh3/BaiduNetdisk200.dmg"];
     [self.urls addObject:@"http://sw.bos.baidu.com/sw-search-sp/software/5062682326178/Baiduyun_mac_2.0.0.dmg"];
+    self.items = [NSMutableArray array];
+    for (int i = 0; i < self.urls.count; i ++) {
+        [self.items addObject:[[LLDownloadItem alloc] initWithDownloadPath:self.urls[i]]];
+    }
 }
 
 - (IBAction)control:(id)sender {
@@ -46,6 +55,37 @@
 - (IBAction)pause:(id)sender {
     
     [[DownloadManager defaultManager] pauseDownloadWithItem:self.currentItem];
+}
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TableViewCell"];
+    cell.item = self.items[indexPath.row];
+    cell.startBlock = ^(LLDownloadItem *item){
+        [[DownloadManager defaultManager] startDownloadWithItem:item];
+    };
+    
+    cell.pauseBlock = ^(LLDownloadItem *item){
+        [[DownloadManager defaultManager] pauseDownloadWithItem:item];
+    };
+    
+    cell.cancelBlock = ^(LLDownloadItem *item){
+        [[DownloadManager defaultManager] cancelDownloadWithItem:item];
+    };
+    return cell;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 44;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.urls.count;
 }
 
 @end
