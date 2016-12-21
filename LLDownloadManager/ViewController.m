@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "LLDownloadItem.h"
-#import "LLDownloadManager.h"
 #import "DownloadManager.h"
 #import "TableViewCell.h"
 
@@ -43,9 +42,6 @@
 
 - (IBAction)control:(id)sender {
     LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:PATH];
-//    item.progressBlock = ^(NSString *target, NSInteger readSize, NSInteger totalSize){
-//        self.sizeLabel.text = [[NSString alloc] initWithFormat:@"--read:%d--total:%d",readSize,totalSize];
-//    };
     [[DownloadManager defaultManager] startDownloadWithItem:item];
     self.currentItem = item;
 }

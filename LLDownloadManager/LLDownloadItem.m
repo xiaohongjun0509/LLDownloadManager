@@ -8,12 +8,10 @@
 
 #import "LLDownloadItem.h"
 #import "objc/runtime.h"
-
+#import <CommonCrypto/CommonDigest.h>
 
 
 @interface LLDownloadItem ()
-
-
 
 @end
 
@@ -23,7 +21,6 @@
     if (self = [super init]) {
         _urlPath = urlPath;
         _state = LLDownloadStateInit;
-        _currentIndex = 0;
 //        _targetPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     }
     return self;
@@ -39,31 +36,24 @@
 - (BOOL)isEqual:(id)object{
     if ([object isKindOfClass:self.class]) {
         LLDownloadItem *downloadItem = object;
-        if ([downloadItem.urlPath isEqualToString:_urlPath]) {
+        if ([downloadItem.md5Id isEqualToString:self.md5Id]) {
             return YES;
         }
     }
     return NO;
 }
 
-/*
- 这里不能用setValue：forKey在这种方式 这种会报错
- */
-- (void)encodeWithCoder:(NSCoder *)aCoder{
-    [aCoder encodeObject:self.downloadOperation forKey:/*NSStringFromSelector(@selector(downloadOperation))*/@"downloadOperation"];
-    [aCoder encodeInteger:self.currentIndex forKey:NSStringFromSelector(@selector(currentIndex))];
-    [aCoder encodeInteger:self.totalSegment forKey:NSStringFromSelector(@selector(totalSegment))];
-    [aCoder encodeObject:self.urlPath forKey:NSStringFromSelector(@selector(urlPath))];
+- (NSString *)md5Id{
+    return [LLDownloadItem md5StringForString:self.urlPath];
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    if(self = [super init]){
-        self.downloadOperation = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(downloadOperation))];
-        self.currentIndex = [aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(currentIndex))];
-        self.totalSegment = [aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(totalSegment))];
-        self.urlPath = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(urlPath))];
-    }
-    return self;
+#pragma mark - helper
++ (NSString *)md5StringForString:(NSString *)string {
+    const char *str = [string UTF8String];
+    unsigned char r[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, (uint32_t)strlen(str), r);
+    return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+            r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
 }
 @end
 

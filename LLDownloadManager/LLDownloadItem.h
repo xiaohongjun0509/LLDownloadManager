@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString *const kUserInfo = @"LLDownloadItem";
+
 /*
  * 当前任务执行的状态
  * xhj
@@ -21,26 +23,26 @@ typedef NS_ENUM(NSInteger,LLDownloadState){
 };
 
 
-static long long segmentLength = 100 * 1024;//分片的长度是100K
+@class LLDownloadItem;
+typedef void(^LLDownloadProgressBlock)(LLDownloadItem *downloadItem, long long downloadedSize, long long totalSize);
+typedef void(^LLDownloadComplitionBlock)(LLDownloadItem *downloadItem, NSError *error);
 
-@class AFDownloadRequestOperation;
 
-@interface LLDownloadItem : NSObject<NSCoding>
-@property (nonatomic, strong) AFDownloadRequestOperation *downloadOperation;
-@property (nonatomic, assign) long long downloadedFileSize;
-@property (nonatomic, assign) long long fileSize;
-@property (nonatomic, copy) NSString *urlPath;
+@class DownloadOperation;
+@interface LLDownloadItem : NSObject
+@property (nonatomic, strong) DownloadOperation *downloadOperation;
 @property (nonatomic, assign) LLDownloadState state;
-@property (nonatomic, assign) NSInteger currentIndex;
-@property (nonatomic, assign) NSInteger totalSegment;
+@property (nonatomic, assign) long long downloadedFileSize;
+@property (nonatomic, assign) long long totalFileSize;
+
+
+@property (nonatomic, copy) NSString *urlPath;
+@property (nonatomic, copy) NSString *md5Id;
 @property (nonatomic, copy) NSString *targetPath;
-@property (nonatomic, copy) void (^progressBlock)(NSString *targetPath, NSInteger downloadedSize, NSInteger    totalSize);
+@property (nonatomic, copy) LLDownloadProgressBlock progressBlock;
+@property (nonatomic, copy) LLDownloadComplitionBlock complitionBlock;
 
 - (instancetype)initWithDownloadPath:(NSString *)path;
-
-
-
-
 
 #pragma mark - used for Download Manager
 @property (nonatomic, strong) NSURLConnection *connection;
