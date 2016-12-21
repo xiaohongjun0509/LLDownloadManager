@@ -68,7 +68,11 @@
             [self startNextDownload];
         }
     }else{
-        NSLog(@"already exist");
+        NSLog(@"已经存在，直接开始");
+        if([self canStartMoreDownloadItem]){
+            downloadItem.state = LLDownloadStateWaiting;
+            [self startNextDownload];
+        }
     }
 }
 
@@ -135,7 +139,6 @@
         default:
             break;
     }
-
 }
 
 

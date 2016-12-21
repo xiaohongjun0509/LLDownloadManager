@@ -97,6 +97,7 @@
  */
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [self.bufferData appendData:data];
+    self.downloadItem.downloadedFileSize += data.length;
     if (self.bufferData.length > self.cacheBufferSize) {
         NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:self.downloadItem.targetPath];
         [handler seekToEndOfFile];
@@ -104,8 +105,9 @@
         NSLog(@"write data buffer length %lu ",(unsigned long)self.bufferData.length);
         self.bufferData = [NSMutableData data];
     }
-    
-    NSLog(@"---%@----%d",self.downloadItem.md5Id,data.length);
+    if (self.downloadItem.progressBlock) {
+        self.downloadItem.progressBlock(self.downloadItem,self.downloadItem.downloadedFileSize,self.downloadItem.totalFileSize);
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{

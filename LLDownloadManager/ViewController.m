@@ -36,21 +36,12 @@
     [self.urls addObject:@"http://sw.bos.baidu.com/sw-search-sp/software/5062682326178/Baiduyun_mac_2.0.0.dmg"];
     self.items = [NSMutableArray array];
     for (int i = 0; i < self.urls.count; i ++) {
-        [self.items addObject:[[LLDownloadItem alloc] initWithDownloadPath:self.urls[i]]];
+        LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:self.urls[i]];
+        item.progressBlock = ^(LLDownloadItem *item, long long read, long long total){
+            NSLog(@"---%@---%ld----%ld",item,read,total);
+        };
+        [self.items addObject:item];
     }
-}
-
-- (IBAction)control:(id)sender {
-    LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:PATH];
-    [[DownloadManager defaultManager] startDownloadWithItem:item];
-    self.currentItem = item;
-}
-- (IBAction)cancel:(id)sender {
-    [[DownloadManager defaultManager] cancelDownloadWithItem:self.currentItem];
-}
-- (IBAction)pause:(id)sender {
-    
-    [[DownloadManager defaultManager] pauseDownloadWithItem:self.currentItem];
 }
 
 
