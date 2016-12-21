@@ -11,6 +11,9 @@
  */
 
 #import "DownloadOperation.h"
+#include <sys/param.h>
+#include <sys/mount.h>
+#import <sys/xattr.h>
 
 @interface DownloadOperation ()<NSURLConnectionDataDelegate>
 @property (nonatomic, strong) LLDownloadItem *downloadItem;
@@ -67,13 +70,31 @@
 
 #pragma mark - delegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    NSLog(@"didReceiveResponse");
+    NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
+    //获得当前下载内容的字节数。直接通过content-length来获取是有问题的。
+    long long desireSize = 0;
+    if([res.allHeaderFields.allKeys containsObject:@"Content-Range"]){
+        NSString *contentRange = res.allHeaderFields[@"Content-Range"];
+        NSUInteger index = [contentRange rangeOfString:@"/"].location;
+        self.downloadItem.totalFileSize = [[contentRange substringFromIndex:index + 1] longLongValue];
+        desireSize = [res.allHeaderFields[@"Content-Length"] longLongValue];
+    }else{
+        self.downloadItem.totalFileSize = [res.allHeaderFields[@"Content-Length"] longLongValue];
+        desireSize = [res.allHeaderFields[@"Content-Length"] longLongValue];
+    }
+    if(![self checkSpace:desireSize]){
+        [connection cancel];
+    }
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.downloadItem.targetPath] == NO) {
         [[NSFileManager defaultManager] createFileAtPath:self.downloadItem.targetPath contents:nil attributes:nil];
     }
     self.bufferData = [NSMutableData data];
 }
 
+
+/*
+ 
+ */
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [self.bufferData appendData:data];
     if (self.bufferData.length > self.cacheBufferSize) {
@@ -89,13 +110,15 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
     NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:self.downloadItem.targetPath];
-    if (self.bufferData.length > 0) {
-        [handler seekToEndOfFile];
-        [handler writeData:self.bufferData];
-        NSLog(@"finish write data length %lu",(unsigned long)self.bufferData.length);
+    NSData *downloadedData = [NSData dataWithContentsOfFile:self.downloadItem.targetPath];
+    if (downloadedData.length < self.downloadItem.totalFileSize) {
+        if (self.bufferData.length > 0) {
+            [handler seekToEndOfFile];
+            [handler writeData:self.bufferData];
+            NSLog(@"finish write data length %lu",(unsigned long)self.bufferData.length);
+        }
+        [handler closeFile];
     }
-    [handler closeFile];
-    
 #ifdef DEBUG
     NSData *data = [[NSData alloc] initWithContentsOfFile:self.downloadItem.targetPath];
     NSLog(@"写入的文件的总的字节数是%lu",(unsigned long)data.length);
@@ -112,6 +135,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         
     });
+    NSLog(@"error occur");
 }
 
 
@@ -128,7 +152,7 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
         offset = [NSData dataWithContentsOfFile:fullPath].length;
     }
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:downloadItem.urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:6];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:downloadItem.urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
     if (offset > 0) {
         NSString *range = [NSString stringWithFormat:@"bytes=%llu-",offset];
         [request addValue:range forHTTPHeaderField:@"Range"];
@@ -149,6 +173,15 @@
     }else{
         NSLog(@"删除临时文件失败");
     }
+}
+
+- (BOOL)checkSpace:(long long)space{
+    struct statfs buf;
+    if(statfs("/var", &buf) >= 0){
+        UInt64 fSize = (UInt64)buf.f_bsize * buf.f_bfree;
+        return (fSize > 200 * pow(1024, 2)) ? YES : NO;//为了保护系统，所以预留200M的系统空间
+    }
+    return YES;
 }
 
 #pragma mark - getter
