@@ -10,6 +10,10 @@
 #import "LLDownloadItem.h"
 
 @interface DownloadManager : NSObject
+
+@property (nonatomic, assign) NSInteger concurrentCount;
+@property (nonatomic, assign) long long cacheBufferSize;
+
 + (instancetype)defaultManager;
 - (void)startDownloadWithItem:(LLDownloadItem *)downloadItem;
 - (void)pauseDownloadWithItem:(LLDownloadItem *)downloadItem;

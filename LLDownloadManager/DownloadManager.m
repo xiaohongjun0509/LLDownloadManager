@@ -9,12 +9,16 @@
 
 #import "DownloadManager.h"
 #import "LLDownloadItem.h"
+#import <CommonCrypto/CommonDigest.h>
+#include <fcntl.h>
 
 @interface DownloadManager ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary *pathDictionary;
 @property (nonatomic, strong) NSMutableDictionary *fileHandlerDictionary;
+@property (nonatomic, strong) NSMutableDictionary *dataBufferDictionary;
 @property (nonatomic, strong) NSMutableArray *downloadArray;
+
 @end
 
 
@@ -35,6 +39,7 @@
     return _downloadThread;
 }
 
+#pragma mark - life cycle
 + (instancetype)defaultManager{
     static dispatch_once_t onceToken;
     static DownloadManager *_manager;
@@ -44,6 +49,15 @@
     return _manager;
 }
 
+- (instancetype)init{
+    if (self = [super init]) {
+        _concurrentCount = 1;//默认只能下载一个任务。
+        _cacheBufferSize = 1024 * 1024;//默认开启1M的memory cache。
+    }
+    return self;
+}
+
+#pragma mark - operation
 - (void)startDownloadWithItem:(LLDownloadItem *)downloadItem{
     NSURLRequest *request = [self buildRequest:downloadItem];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
@@ -65,7 +79,6 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
        offset = [NSData dataWithContentsOfFile:fullPath].length;
     }
-    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:downloadItem.urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:6];
     if (offset > 0) {
         NSString *range = [NSString stringWithFormat:@"bytes=%llu-",offset];
@@ -118,10 +131,7 @@
     [self.downloadArray removeObject:item];
 }
 
-- (NSString *)cacheFolder{
-    NSString *cacheFolder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    return cacheFolder;
-}
+
 
 #pragma mark - delegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
@@ -132,37 +142,65 @@
     }
     NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:downloadPath];
     self.fileHandlerDictionary[connection.description] = handler;
+    self.dataBufferDictionary[connection.description] = [NSMutableData data];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    NSFileHandle *handler = self.fileHandlerDictionary[connection.description];
-    [handler seekToEndOfFile];
-    [handler writeData:data];
-    NSLog(@"data length %d",data.length);
+    
+    NSMutableData *bufferData = self.dataBufferDictionary[connection.description];
+    [bufferData appendData:data];
+    if (bufferData.length > self.cacheBufferSize) {
+        NSFileHandle *handler = self.fileHandlerDictionary[connection.description];
+        [handler seekToEndOfFile];
+        [handler writeData:bufferData];
+        self.dataBufferDictionary[connection.description] = [NSMutableData data];
+        NSLog(@"write data buffer length %lu ",(unsigned long)bufferData.length);
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
     NSString *key = connection.description;
     NSFileHandle *handler = self.fileHandlerDictionary[key];
+    NSMutableData *bufferData = self.dataBufferDictionary[connection.description];
+    if (bufferData.length > 0) {
+        [handler seekToEndOfFile];
+        [handler writeData:bufferData];
+        [self.dataBufferDictionary removeObjectForKey:connection.description];
+        NSLog(@"finish write data length %lu",(unsigned long)bufferData.length);
+    }
     [handler closeFile];
+    
+#ifdef DEBUG
+    NSData *data = [[NSData alloc] initWithContentsOfFile:self.pathDictionary[key]];
+    NSLog(@"写入的文件的总的字节数是%lu",(unsigned long)data.length);
+#endif
+    
     [self.pathDictionary removeObjectForKey:key];
     [self.fileHandlerDictionary removeObjectForKey:key];
-    NSLog(@" finish");
 }
 
 
 #pragma mark - private
+- (NSString *)cacheFolder{
+    NSString *cacheFolder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    return cacheFolder;
+}
 
-- (NSMutableDictionary *)pathDictionary
-{
+- (BOOL)canExecuteMoreDownloadItem{
+#warning 任务先放在这里
+    return YES;
+}
+
+
+#pragma mark - getter
+- (NSMutableDictionary *)pathDictionary{
     if (_pathDictionary == nil) {
         _pathDictionary = [NSMutableDictionary dictionary];
     }
     return _pathDictionary;
 }
 
-- (NSMutableDictionary *)fileHandlerDictionary
-{
+- (NSMutableDictionary *)fileHandlerDictionary{
     if (_fileHandlerDictionary == nil) {
         _fileHandlerDictionary = [NSMutableDictionary dictionary];
     }
@@ -176,4 +214,21 @@
     }
     return _downloadArray;
 }
+
+
+- (NSMutableDictionary *)dataBufferDictionary{
+    if (_dataBufferDictionary == nil) {
+        _dataBufferDictionary = [NSMutableDictionary dictionary];
+    }
+    return _dataBufferDictionary;
+}
+
+#pragma mark - helper
++ (NSString *)md5StringForString:(NSString *)string {
+    const char *str = [string UTF8String];
+    unsigned char r[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, (uint32_t)strlen(str), r);
+    return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+            r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
+    }
 @end
