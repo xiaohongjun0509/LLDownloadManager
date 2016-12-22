@@ -89,6 +89,9 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
     [self.connection performSelector:@selector(start) onThread:[self.class downloadThread] withObject:nil waitUntilDone:NO];
     [self setState:LLDownloadStateDownloading];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadUpdateArchieveNotification object:nil userInfo:nil];
+    });
 }
 
 - (void)pause{
@@ -99,6 +102,7 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     [self setState:LLDownloadStateCompleted];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadPauseNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadUpdateArchieveNotification object:nil userInfo:nil];
     });
 }
 
@@ -109,7 +113,8 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     [self.connection cancel];
     [self cleanDownloadItem:self.downloadItem];
     dispatch_async(dispatch_get_main_queue(), ^{
-         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCancelNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCancelNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadUpdateArchieveNotification object:nil userInfo:nil];
     });
 }
 
@@ -138,13 +143,19 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [self.bufferData appendData:data];
-    self.downloadItem.downloadedFileSize += data.length;
+    if(self.downloadItem.downloadedFileSize < self.downloadItem.totalFileSize){
+        self.downloadItem.downloadedFileSize += data.length;
+    }
     if (self.bufferData.length > self.cacheBufferSize) {
         NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:self.downloadItem.targetPath];
         [handler seekToEndOfFile];
         [handler writeData:self.bufferData];
         NSLog(@"write data buffer length %lu ",(unsigned long)self.bufferData.length);
         self.bufferData = [NSMutableData data];
+        //更新持久化的内容到本地
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadUpdateArchieveNotification object:nil];
+        });
     }
     if (self.downloadItem.progressBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -172,17 +183,18 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     [super cancel];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadUpdateArchieveNotification object:nil];
     });
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:self.downloadItem.targetPath];
     [handler closeFile];
-    NSLog(@"error occur");
+    NSLog(@"error occur---->%@",error);
     [super cancel];
     [self setState:LLDownloadStateCompleted];
     dispatch_async(dispatch_get_main_queue(), ^{
-         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem,kLLDownloadErrorInfo : error}];
     });
 }
 

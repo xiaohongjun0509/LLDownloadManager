@@ -13,6 +13,7 @@
 
 @property (nonatomic, assign) NSInteger concurrentCount;
 @property (nonatomic, assign) long long cacheBufferSize;
+@property (nonatomic, strong) NSMutableArray *downloadItemArray;
 
 + (instancetype)defaultManager;
 - (void)startDownloadWithItem:(LLDownloadItem *)downloadItem;

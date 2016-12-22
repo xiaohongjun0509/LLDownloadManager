@@ -97,38 +97,6 @@
             endingLineNumber = "57"
             landmarkName = "-startDownloadWithItem:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[DownloadManager startDownloadWithItem:]"
-                  moduleName = "LLDownloadManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ihj/GitHub/LLDownloadManager/LLDownloadManager/DownloadManager.m"
-                  timestampString = "504024469.847448"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "57"
-                  endingLineNumber = "57"
-                  offsetFromSymbolStart = "73">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__41-[DownloadManager startDownloadWithItem:]_block_invoke"
-                  moduleName = "LLDownloadManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ihj/GitHub/LLDownloadManager/LLDownloadManager/DownloadManager.m"
-                  timestampString = "504024469.849479"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "57"
-                  endingLineNumber = "57"
-                  offsetFromSymbolStart = "16">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -144,22 +112,6 @@
             startingLineNumber = "108"
             endingLineNumber = "108"
             landmarkName = "-connection:didReceiveData:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LLDownloadManager/ViewController.m"
-            timestampString = "504023860.141254"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

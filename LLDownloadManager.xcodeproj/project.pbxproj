@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		824AC14A1E097630000CA4C5 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 824AC1481E097630000CA4C5 /* TableViewCell.m */; };
-		824AC14B1E097630000CA4C5 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 824AC1491E097630000CA4C5 /* TableViewCell.xib */; };
+		826D56141E0C149400C4F0F9 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 826D56121E0C149400C4F0F9 /* TableViewCell.m */; };
+		826D56151E0C149400C4F0F9 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826D56131E0C149400C4F0F9 /* TableViewCell.xib */; };
 		B1620B6F1E07E62F000515E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B6E1E07E62F000515E3 /* main.m */; };
 		B1620B721E07E62F000515E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B711E07E62F000515E3 /* AppDelegate.m */; };
 		B1620B751E07E62F000515E3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B741E07E62F000515E3 /* ViewController.m */; };
@@ -31,9 +31,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		824AC1471E097630000CA4C5 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCell.h; path = ../TableViewCell.h; sourceTree = "<group>"; };
-		824AC1481E097630000CA4C5 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCell.m; path = ../TableViewCell.m; sourceTree = "<group>"; };
-		824AC1491E097630000CA4C5 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableViewCell.xib; path = ../TableViewCell.xib; sourceTree = "<group>"; };
+		826D56111E0C149400C4F0F9 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCell.h; path = LLDownloadManager/TableViewCell.h; sourceTree = SOURCE_ROOT; };
+		826D56121E0C149400C4F0F9 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCell.m; path = LLDownloadManager/TableViewCell.m; sourceTree = SOURCE_ROOT; };
+		826D56131E0C149400C4F0F9 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableViewCell.xib; path = LLDownloadManager/TableViewCell.xib; sourceTree = SOURCE_ROOT; };
 		B1620B6A1E07E62F000515E3 /* LLDownloadManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LLDownloadManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1620B6E1E07E62F000515E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B1620B701E07E62F000515E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -179,9 +179,9 @@
 		B1620BC81E0B776C000515E3 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				824AC1471E097630000CA4C5 /* TableViewCell.h */,
-				824AC1481E097630000CA4C5 /* TableViewCell.m */,
-				824AC1491E097630000CA4C5 /* TableViewCell.xib */,
+				826D56111E0C149400C4F0F9 /* TableViewCell.h */,
+				826D56121E0C149400C4F0F9 /* TableViewCell.m */,
+				826D56131E0C149400C4F0F9 /* TableViewCell.xib */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1620B7D1E07E62F000515E3 /* LaunchScreen.storyboard in Resources */,
-				824AC14B1E097630000CA4C5 /* TableViewCell.xib in Resources */,
+				826D56151E0C149400C4F0F9 /* TableViewCell.xib in Resources */,
 				B1620B7A1E07E62F000515E3 /* Assets.xcassets in Resources */,
 				B1620B781E07E62F000515E3 /* Main.storyboard in Resources */,
 			);
@@ -267,11 +267,11 @@
 				B1620BA61E07F1F1000515E3 /* AFURLRequestSerialization.m in Sources */,
 				B1620BC61E0B774E000515E3 /* LLDownloadOperation.m in Sources */,
 				B1620BA21E07F1F1000515E3 /* AFHTTPSessionManager.m in Sources */,
+				826D56141E0C149400C4F0F9 /* TableViewCell.m in Sources */,
 				B1620BC51E0B774E000515E3 /* LLDownloadManager.m in Sources */,
 				B1620BA31E07F1F1000515E3 /* AFNetworkReachabilityManager.m in Sources */,
 				B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */,
 				B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */,
-				824AC14A1E097630000CA4C5 /* TableViewCell.m in Sources */,
 				B1620BA81E07F1F1000515E3 /* AFURLSessionManager.m in Sources */,
 				B1620BC71E0B774E000515E3 /* LLDownloadItem.m in Sources */,
 				B1620B6F1E07E62F000515E3 /* main.m in Sources */,

@@ -13,7 +13,7 @@
 
 
 
-@interface LLDownloadItem ()
+@interface LLDownloadItem ()<NSCoding>
 @property (nonatomic, copy) NSString *md5Id;
 @end
 
@@ -49,7 +49,26 @@
     return [LLDownloadItem md5StringForString:self.urlPath];
 }
 
+#pragma mark - delegate
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+    if (self = [super init]) {
+        self.targetPath = [aDecoder decodeObjectForKey:@"targetPath"];
+        self.totalFileSize = [[aDecoder decodeObjectForKey:@"totalFileSize"] longLongValue];
+        self.downloadedFileSize = [[aDecoder decodeObjectForKey:@"downloadedFileSize"] longLongValue];
+        self.state = [aDecoder decodeIntegerForKey:@"state"];
+        self.urlPath = [aDecoder decodeObjectForKey:@"urlPath"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder{
+    [aCoder encodeObject:self.urlPath forKey:@"urlPath"];
+    [aCoder encodeObject:self.targetPath forKey:@"targetPath"];
+    [aCoder encodeObject:@(self.totalFileSize) forKey:@"totalFileSize"];
+    [aCoder encodeObject:@(self.downloadedFileSize) forKey:@"downloadedFileSize"];
+    [aCoder encodeInteger:self.state forKey:@"state"];
+}
 
 
 #pragma mark - helper

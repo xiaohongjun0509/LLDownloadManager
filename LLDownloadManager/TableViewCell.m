@@ -7,6 +7,7 @@
 //
 
 #import "TableViewCell.h"
+#import "LLDownloadItem.h"
 
 @implementation TableViewCell
 
@@ -15,9 +16,7 @@
     // Initialization code
 }
 - (IBAction)start:(id)sender {
-    self.startBlock(self.item);
-//    self.stateButton.enabled = 
-    
+    self.startBlock(self.item);    
 }
 - (IBAction)pause:(id)sender {
     self.pauseBlock(self.item);
@@ -26,4 +25,8 @@
     self.cancelBlock(self.item);
 }
 
+- (void)setItem:(LLDownloadItem *)item{
+    _item = item;
+    self.progressLabel.text = [NSString stringWithFormat:@"已下载:%lld<---> 文件大小:%lld",item.downloadedFileSize,item.totalFileSize];
+}
 @end
