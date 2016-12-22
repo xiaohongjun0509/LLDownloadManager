@@ -18,32 +18,64 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaW-vI-nIa">
-                        <rect key="frame" x="37" y="8" width="46" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaW-vI-nIa">
+                        <rect key="frame" x="30" y="0.0" width="32" height="30"/>
                         <state key="normal" title="start"/>
+                        <state key="disabled" title="start">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
                         <connections>
                             <action selector="start:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9XF-fr-91p"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PUa-s8-5cA">
-                        <rect key="frame" x="119" y="8" width="46" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PUa-s8-5cA">
+                        <rect key="frame" x="112" y="0.0" width="42" height="30"/>
                         <state key="normal" title="pause"/>
+                        <state key="disabled" title="pause">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
                         <connections>
                             <action selector="pause:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="B3s-Wr-uVe"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARL-vL-LFW">
-                        <rect key="frame" x="193" y="8" width="46" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ARL-vL-LFW">
+                        <rect key="frame" x="204" y="0.0" width="45" height="30"/>
                         <state key="normal" title="cancel"/>
+                        <state key="disabled" title="cancel">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
                         <connections>
                             <action selector="cancel:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="npZ-gz-8Yc"/>
                         </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZn-NW-zwE">
+                        <rect key="frame" x="0.0" y="22" width="320" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="ARL-vL-LFW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="4J9-Fo-jvQ"/>
+                    <constraint firstItem="ARL-vL-LFW" firstAttribute="leading" secondItem="PUa-s8-5cA" secondAttribute="trailing" constant="50" id="7H0-pq-Qoc"/>
+                    <constraint firstItem="bZn-NW-zwE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="7xg-0S-Gz3"/>
+                    <constraint firstItem="DaW-vI-nIa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BoB-DJ-r9q"/>
+                    <constraint firstItem="PUa-s8-5cA" firstAttribute="leading" secondItem="DaW-vI-nIa" secondAttribute="trailing" constant="50" id="HtS-qB-cnS"/>
+                    <constraint firstAttribute="trailing" secondItem="bZn-NW-zwE" secondAttribute="trailing" id="IlT-K0-7Bd"/>
+                    <constraint firstAttribute="trailing" secondItem="bZn-NW-zwE" secondAttribute="trailing" id="T55-yO-CmW"/>
+                    <constraint firstAttribute="bottom" secondItem="bZn-NW-zwE" secondAttribute="bottom" id="VfZ-XQ-V3w"/>
+                    <constraint firstAttribute="bottom" secondItem="bZn-NW-zwE" secondAttribute="bottom" id="YxA-Ue-uzD"/>
+                    <constraint firstItem="PUa-s8-5cA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ZgN-5f-MuF"/>
+                    <constraint firstItem="DaW-vI-nIa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="si9-kS-WyA"/>
+                </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="cancelButton" destination="ARL-vL-LFW" id="G5u-rQ-6SS"/>
+                <outlet property="pauseButton" destination="PUa-s8-5cA" id="Erj-xI-Hyz"/>
+                <outlet property="progressLabel" destination="bZn-NW-zwE" id="4mg-3m-hl4"/>
+                <outlet property="stateButton" destination="DaW-vI-nIa" id="0Ed-Ju-5gN"/>
+            </connections>
+            <point key="canvasLocation" x="-179" y="-76"/>
         </tableViewCell>
     </objects>
 </document>

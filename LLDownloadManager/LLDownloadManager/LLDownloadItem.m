@@ -12,7 +12,7 @@
 
 
 @interface LLDownloadItem ()
-
+@property (nonatomic, copy) NSString *md5Id;
 @end
 
 @implementation LLDownloadItem

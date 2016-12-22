@@ -37,9 +37,7 @@
     self.items = [NSMutableArray array];
     for (int i = 0; i < self.urls.count; i ++) {
         LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:self.urls[i]];
-        item.progressBlock = ^(LLDownloadItem *item, long long read, long long total){
-            NSLog(@"---%@---%ld----%ld",item,read,total);
-        };
+        
         [self.items addObject:item];
     }
 }
@@ -51,7 +49,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TableViewCell"];
-    cell.item = self.items[indexPath.row];
+    LLDownloadItem *item = self.items[indexPath.row];
+    cell.item = item;
+    __weak typeof(cell) wsCell = cell;
+    item.progressBlock = ^(LLDownloadItem *item, long long read, long long total){
+        wsCell.progressLabel.text = [NSString stringWithFormat:@"--%lld--%lld",read,total];
+    };
     cell.startBlock = ^(LLDownloadItem *item){
         [[DownloadManager defaultManager] startDownloadWithItem:item];
     };
@@ -63,6 +66,8 @@
     cell.cancelBlock = ^(LLDownloadItem *item){
         [[DownloadManager defaultManager] cancelDownloadWithItem:item];
     };
+    
+    
     return cell;
 }
 

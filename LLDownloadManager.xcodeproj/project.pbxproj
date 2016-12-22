@@ -24,16 +24,17 @@
 		B1620BA61E07F1F1000515E3 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B9B1E07F1F1000515E3 /* AFURLRequestSerialization.m */; };
 		B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B9D1E07F1F1000515E3 /* AFURLResponseSerialization.m */; };
 		B1620BA81E07F1F1000515E3 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B9F1E07F1F1000515E3 /* AFURLSessionManager.m */; };
-		B1620BAC1E07F355000515E3 /* LLDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAB1E07F355000515E3 /* LLDownloadItem.m */; };
 		B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */; };
-		B1620BB61E091C1A000515E3 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BB51E091C1A000515E3 /* DownloadManager.m */; };
-		B1620BBD1E0A39B4000515E3 /* DownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BBC1E0A39B4000515E3 /* DownloadOperation.m */; };
+		B1620BC51E0B774E000515E3 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BC01E0B774E000515E3 /* DownloadManager.m */; };
+		B1620BC61E0B774E000515E3 /* DownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BC21E0B774E000515E3 /* DownloadOperation.m */; };
+		B1620BC71E0B774E000515E3 /* LLDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BC41E0B774E000515E3 /* LLDownloadItem.m */; };
+		B1620BCB1E0BA3DC000515E3 /* TestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BCA1E0BA3DC000515E3 /* TestOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		824AC1471E097630000CA4C5 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
-		824AC1481E097630000CA4C5 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
-		824AC1491E097630000CA4C5 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
+		824AC1471E097630000CA4C5 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCell.h; path = ../TableViewCell.h; sourceTree = "<group>"; };
+		824AC1481E097630000CA4C5 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCell.m; path = ../TableViewCell.m; sourceTree = "<group>"; };
+		824AC1491E097630000CA4C5 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableViewCell.xib; path = ../TableViewCell.xib; sourceTree = "<group>"; };
 		B1620B6A1E07E62F000515E3 /* LLDownloadManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LLDownloadManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1620B6E1E07E62F000515E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B1620B701E07E62F000515E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -63,14 +64,16 @@
 		B1620B9D1E07F1F1000515E3 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		B1620B9E1E07F1F1000515E3 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		B1620B9F1E07F1F1000515E3 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
-		B1620BAA1E07F355000515E3 /* LLDownloadItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadItem.h; sourceTree = "<group>"; };
-		B1620BAB1E07F355000515E3 /* LLDownloadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadItem.m; sourceTree = "<group>"; };
 		B1620BAD1E07F3D8000515E3 /* AFDownloadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDownloadRequestOperation.h; sourceTree = "<group>"; };
 		B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDownloadRequestOperation.m; sourceTree = "<group>"; };
-		B1620BB41E091C1A000515E3 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
-		B1620BB51E091C1A000515E3 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
-		B1620BBB1E0A39B4000515E3 /* DownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadOperation.h; sourceTree = "<group>"; };
-		B1620BBC1E0A39B4000515E3 /* DownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadOperation.m; sourceTree = "<group>"; };
+		B1620BBF1E0B774E000515E3 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
+		B1620BC01E0B774E000515E3 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
+		B1620BC11E0B774E000515E3 /* DownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadOperation.h; sourceTree = "<group>"; };
+		B1620BC21E0B774E000515E3 /* DownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadOperation.m; sourceTree = "<group>"; };
+		B1620BC31E0B774E000515E3 /* LLDownloadItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadItem.h; sourceTree = "<group>"; };
+		B1620BC41E0B774E000515E3 /* LLDownloadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadItem.m; sourceTree = "<group>"; };
+		B1620BC91E0BA3DC000515E3 /* TestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestOperation.h; sourceTree = "<group>"; };
+		B1620BCA1E0BA3DC000515E3 /* TestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,18 +106,15 @@
 		B1620B6C1E07E62F000515E3 /* LLDownloadManager */ = {
 			isa = PBXGroup;
 			children = (
-				B1620BB31E091B98000515E3 /* Tool2 */,
+				B1620BC81E0B776C000515E3 /* Demo */,
+				B1620BBE1E0B774E000515E3 /* LLDownloadManager */,
 				B1620BA91E07F212000515E3 /* AFDownloadOperation */,
 				B1620B8C1E07F1F1000515E3 /* AFNetworking */,
-				B1620B841E07E63E000515E3 /* Class */,
 				B1620B701E07E62F000515E3 /* AppDelegate.h */,
 				B1620B711E07E62F000515E3 /* AppDelegate.m */,
 				B1620B731E07E62F000515E3 /* ViewController.h */,
 				B1620B741E07E62F000515E3 /* ViewController.m */,
 				B1620B761E07E62F000515E3 /* Main.storyboard */,
-				824AC1471E097630000CA4C5 /* TableViewCell.h */,
-				824AC1481E097630000CA4C5 /* TableViewCell.m */,
-				824AC1491E097630000CA4C5 /* TableViewCell.xib */,
 				B1620B791E07E62F000515E3 /* Assets.xcassets */,
 				B1620B7B1E07E62F000515E3 /* LaunchScreen.storyboard */,
 				B1620B7E1E07E62F000515E3 /* Info.plist */,
@@ -129,13 +129,6 @@
 				B1620B6E1E07E62F000515E3 /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		B1620B841E07E63E000515E3 /* Class */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Class;
 			sourceTree = "<group>";
 		};
 		B1620B8C1E07F1F1000515E3 /* AFNetworking */ = {
@@ -173,17 +166,29 @@
 			name = AFDownloadOperation;
 			sourceTree = "<group>";
 		};
-		B1620BB31E091B98000515E3 /* Tool2 */ = {
+		B1620BBE1E0B774E000515E3 /* LLDownloadManager */ = {
 			isa = PBXGroup;
 			children = (
-				B1620BB41E091C1A000515E3 /* DownloadManager.h */,
-				B1620BB51E091C1A000515E3 /* DownloadManager.m */,
-				B1620BAA1E07F355000515E3 /* LLDownloadItem.h */,
-				B1620BAB1E07F355000515E3 /* LLDownloadItem.m */,
-				B1620BBB1E0A39B4000515E3 /* DownloadOperation.h */,
-				B1620BBC1E0A39B4000515E3 /* DownloadOperation.m */,
+				B1620BBF1E0B774E000515E3 /* DownloadManager.h */,
+				B1620BC01E0B774E000515E3 /* DownloadManager.m */,
+				B1620BC11E0B774E000515E3 /* DownloadOperation.h */,
+				B1620BC21E0B774E000515E3 /* DownloadOperation.m */,
+				B1620BC31E0B774E000515E3 /* LLDownloadItem.h */,
+				B1620BC41E0B774E000515E3 /* LLDownloadItem.m */,
+				B1620BC91E0BA3DC000515E3 /* TestOperation.h */,
+				B1620BCA1E0BA3DC000515E3 /* TestOperation.m */,
 			);
-			name = Tool2;
+			path = LLDownloadManager;
+			sourceTree = "<group>";
+		};
+		B1620BC81E0B776C000515E3 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				824AC1471E097630000CA4C5 /* TableViewCell.h */,
+				824AC1481E097630000CA4C5 /* TableViewCell.m */,
+				824AC1491E097630000CA4C5 /* TableViewCell.xib */,
+			);
+			path = Demo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,16 +270,17 @@
 				B1620BA51E07F1F1000515E3 /* AFURLConnectionOperation.m in Sources */,
 				B1620BA01E07F1F1000515E3 /* AFHTTPRequestOperation.m in Sources */,
 				B1620BA61E07F1F1000515E3 /* AFURLRequestSerialization.m in Sources */,
+				B1620BC61E0B774E000515E3 /* DownloadOperation.m in Sources */,
 				B1620BA21E07F1F1000515E3 /* AFHTTPSessionManager.m in Sources */,
-				B1620BAC1E07F355000515E3 /* LLDownloadItem.m in Sources */,
+				B1620BC51E0B774E000515E3 /* DownloadManager.m in Sources */,
 				B1620BA31E07F1F1000515E3 /* AFNetworkReachabilityManager.m in Sources */,
 				B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */,
 				B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */,
 				824AC14A1E097630000CA4C5 /* TableViewCell.m in Sources */,
 				B1620BA81E07F1F1000515E3 /* AFURLSessionManager.m in Sources */,
-				B1620BBD1E0A39B4000515E3 /* DownloadOperation.m in Sources */,
+				B1620BC71E0B774E000515E3 /* LLDownloadItem.m in Sources */,
 				B1620B6F1E07E62F000515E3 /* main.m in Sources */,
-				B1620BB61E091C1A000515E3 /* DownloadManager.m in Sources */,
+				B1620BCB1E0BA3DC000515E3 /* TestOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,7 +16,7 @@
 #import <sys/xattr.h>
 
 @interface DownloadOperation ()<NSURLConnectionDataDelegate>
-@property (nonatomic, strong) LLDownloadItem *downloadItem;
+@property (nonatomic, weak) LLDownloadItem *downloadItem;
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *bufferData;
 @end
@@ -46,25 +46,46 @@
     return self;
 }
 
+/*
+ 将Operation加入到operationQueue之后，这个Operation并不会马上被调用，他的调度的顺序依赖优先级和当前的状态。
+ 为了避免在开始之前被取消了，先要判断是否取消掉了。
+ */
 - (void)start{
+    if([self isCancelled]){
+        return;
+    }
     NSURLRequest *request = [self buildRequest:self.downloadItem];
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
     [self.connection performSelector:@selector(start) onThread:[self.class downloadThread] withObject:nil waitUntilDone:NO];
 }
 
+//- (void)main{
+//    if([self isCancelled]){
+//        return;
+//    }
+//    NSURLRequest *request = [self buildRequest:self.downloadItem];
+//    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+//    [self.connection performSelector:@selector(start) onThread:[self.class downloadThread] withObject:nil waitUntilDone:NO];
+//}
 
 - (void)pause{
+    if ([self isCancelled]) {
+        return;
+    }
     [self.connection cancel];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadPauseNotification object:nil userInfo:@{kUserInfo : self.downloadItem}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadPauseNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
     });
 }
 
 - (void)cancel{
+    if ([self isCancelled]) {
+        return;
+    }
     [self.connection cancel];
     [self cleanDownloadItem:self.downloadItem];
     dispatch_async(dispatch_get_main_queue(), ^{
-         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCancelNotification object:nil userInfo:@{kUserInfo : self.downloadItem}];
+         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCancelNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
     });
 }
 
@@ -91,7 +112,6 @@
     self.bufferData = [NSMutableData data];
 }
 
-
 /*
  
  */
@@ -106,7 +126,9 @@
         self.bufferData = [NSMutableData data];
     }
     if (self.downloadItem.progressBlock) {
-        self.downloadItem.progressBlock(self.downloadItem,self.downloadItem.downloadedFileSize,self.downloadItem.totalFileSize);
+        dispatch_async(dispatch_get_main_queue(), ^{
+           self.downloadItem.progressBlock(self.downloadItem,self.downloadItem.downloadedFileSize,self.downloadItem.totalFileSize); 
+        });
     }
 }
 
@@ -125,19 +147,22 @@
     NSData *data = [[NSData alloc] initWithContentsOfFile:self.downloadItem.targetPath];
     NSLog(@"写入的文件的总的字节数是%lu",(unsigned long)data.length);
 #endif
-    
+    self.downloadItem.state = LLDownloadStateCompleted;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kUserInfo : self.downloadItem}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
     });
+    
+    [super cancel];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:self.downloadItem.targetPath];
     [handler closeFile];
     dispatch_async(dispatch_get_main_queue(), ^{
-        
+         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
     });
     NSLog(@"error occur");
+    [super cancel];
 }
 
 
@@ -159,6 +184,7 @@
         NSString *range = [NSString stringWithFormat:@"bytes=%llu-",offset];
         [request addValue:range forHTTPHeaderField:@"Range"];
     }
+    downloadItem.downloadedFileSize = offset;
     return request;
 }
 
@@ -191,4 +217,10 @@
     NSString *cacheFolder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     return cacheFolder;
 }
+
+//- (BOOL)isFinished{
+//    return self.downloadItem.state == LLDownloadStateCompleted || [self isCancelled];
+//}
+
+
 @end

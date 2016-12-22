@@ -8,17 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString *const kUserInfo = @"LLDownloadItem";
+static NSString *const kLLDownloadUserInfo = @"LLDownloadItem";
+static NSString *const kLLDownloadErrorInfo = @"kLLDownloadNotificationErrorInfo";
 
 /*
  * 当前任务执行的状态
- * xhj
  */
 typedef NS_ENUM(NSInteger,LLDownloadState){
     LLDownloadStateInit,
     LLDownloadStateWaiting,
     LLDownloadStateDownloading,
     LLDownloadStatePause,
+    LLDownloadStateCompleted,
     LLDownloadStateError
 };
 
@@ -35,9 +36,7 @@ typedef void(^LLDownloadComplitionBlock)(LLDownloadItem *downloadItem, NSError *
 @property (nonatomic, assign) long long downloadedFileSize;
 @property (nonatomic, assign) long long totalFileSize;
 
-
 @property (nonatomic, copy) NSString *urlPath;
-@property (nonatomic, copy) NSString *md5Id;
 @property (nonatomic, copy) NSString *targetPath;
 @property (nonatomic, copy) LLDownloadProgressBlock progressBlock;
 @property (nonatomic, copy) LLDownloadComplitionBlock complitionBlock;

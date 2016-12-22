@@ -21,12 +21,8 @@
  5.内存保护
 */
 @interface DownloadManager ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
-
-
-@property (nonatomic, strong) NSMutableArray *downloadArray;
 @property (nonatomic, strong) NSMutableArray *downloadItemArray;
 @property (nonatomic, strong) NSOperationQueue *downloadOperationQueue;
-
 @end
 
 
@@ -44,19 +40,23 @@
 
 - (instancetype)init{
     if (self = [super init]) {
-        self.downloadOperationQueue.maxConcurrentOperationCount = 1;//默认只能下载一个任务。
-        self.cacheBufferSize = 1024 * 1024;//默认开启1M的memory cache。
+        _concurrentCount = 1;//默认只能下载一个任务。
+        _cacheBufferSize = 1024 * 1024;//默认开启1M的memory cache。
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateItemsArray:) name:kLLDownloadCompletedNotification object:nil];
     }
     return self;
 }
 
+- (void)dealloc{
+    [self.downloadOperationQueue cancelAllOperations];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 #pragma mark - operation
 - (void)startDownloadWithItem:(LLDownloadItem *)downloadItem{
     __block BOOL existInArray = NO;
     [self.downloadItemArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        LLDownloadItem *item= obj;
-        if ([item.md5Id isEqualToString:downloadItem.md5Id]) {
+        LLDownloadItem *item = obj;
+        if ([item isEqual:downloadItem]) {
             *stop = YES;
             existInArray = YES;
         }
@@ -76,41 +76,11 @@
     }
 }
 
-- (void)startDownload{
-    LLDownloadItem *currentItem = [self.downloadItemArray firstObject];
-    LLDownloadState state = currentItem.state;
-    if (state == LLDownloadStateInit || state == LLDownloadStateWaiting) {
-        DownloadOperation *operation = [[DownloadOperation alloc] initOperationWithItem:currentItem];
-        [self.downloadOperationQueue addOperation:operation];
-    }
-    switch (state) {
-        case LLDownloadStateInit:
-        case LLDownloadStateWaiting:
-        {
-            DownloadOperation *operation = [[DownloadOperation alloc] initOperationWithItem:currentItem];
-            [self.downloadOperationQueue addOperation:operation];
-            currentItem.state = LLDownloadStateDownloading;
-        }
-            break;
-        case LLDownloadStatePause:{
-            
-        }
-            break;
-        case LLDownloadStateDownloading:{
-            
-        }
-            break;
-        case LLDownloadStateError:{
-            
-        }
-            break;
-        default:
-            break;
-    }
-}
-
 - (void)startNextDownload{
     LLDownloadItem *currentItem = [self.downloadItemArray firstObject];
+    if (currentItem == nil) {
+        return;
+    }
     LLDownloadState state = currentItem.state;
     if (state == LLDownloadStateInit || state == LLDownloadStateWaiting) {
         DownloadOperation *operation = [[DownloadOperation alloc] initOperationWithItem:currentItem];
@@ -122,18 +92,6 @@
         {
             DownloadOperation *operation = [[DownloadOperation alloc] initOperationWithItem:currentItem];
             [self.downloadOperationQueue addOperation:operation];
-        }
-            break;
-        case LLDownloadStatePause:{
-            //手动暂停的话，下一次循环的时候不会开启这个任务。
-        }
-            break;
-        case LLDownloadStateDownloading:{
-            
-        }
-            break;
-        case LLDownloadStateError:{
-            
         }
             break;
         default:
@@ -182,6 +140,7 @@
 - (NSOperationQueue *)downloadOperationQueue{
     if (_downloadOperationQueue == nil) {
         _downloadOperationQueue = [[NSOperationQueue alloc] init];
+        _downloadOperationQueue.maxConcurrentOperationCount = self.concurrentCount;
         _downloadOperationQueue.name = @"LLDownloadOperationQueue";
     }
     return _downloadOperationQueue;
@@ -189,11 +148,11 @@
 
 #pragma mark - observer
 - (void)updateItemsArray:(NSNotification *)noti{
-    LLDownloadItem *item = noti.userInfo[kUserInfo];
+    LLDownloadItem *item = noti.userInfo[kLLDownloadUserInfo];
     __block NSInteger index = NSNotFound;
     [self.downloadItemArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         LLDownloadItem *downloadItem = obj;
-        if([item.md5Id isEqualToString:downloadItem.md5Id]){
+        if([item isEqual:downloadItem]){
             index = idx;
             *stop = YES;
         }
@@ -203,4 +162,5 @@
     }
     [self startNextDownload];
 }
+
 @end

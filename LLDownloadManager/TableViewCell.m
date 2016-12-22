@@ -16,6 +16,8 @@
 }
 - (IBAction)start:(id)sender {
     self.startBlock(self.item);
+//    self.stateButton.enabled = 
+    
 }
 - (IBAction)pause:(id)sender {
     self.pauseBlock(self.item);
