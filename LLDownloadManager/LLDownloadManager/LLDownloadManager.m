@@ -1,39 +1,30 @@
 
 //
-//  DownloadManager.m
-//  LLDownloadManager
+//  LLDownloadManager.m
+//  LLLLDownloadManager
 //
 //  Created by xiaohongjun on 2016/12/20.
 //  Copyright © 2016年 XHJ. All rights reserved.
 //
 
-#import "DownloadManager.h"
+#import "LLDownloadManager.h"
 #import "LLDownloadItem.h"
+#import "LLDownloadOperation.h"
 
-#import "DownloadOperation.h"
-
-/*
- manager：
- 1.全部开始/暂停
- 2.断点续传
- 3.取消缓存
- 4.并发缓存
- 5.内存保护
-*/
-@interface DownloadManager ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
+@interface LLDownloadManager ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
 @property (nonatomic, strong) NSMutableArray *downloadItemArray;
 @property (nonatomic, strong) NSOperationQueue *downloadOperationQueue;
 @end
 
 
-@implementation DownloadManager
+@implementation LLDownloadManager
 
 #pragma mark - life cycle
 + (instancetype)defaultManager{
     static dispatch_once_t onceToken;
-    static DownloadManager *_manager;
+    static LLDownloadManager *_manager;
     dispatch_once(&onceToken, ^{
-        _manager = [[DownloadManager alloc] init];
+        _manager = [[LLDownloadManager alloc] init];
     });
     return _manager;
 }
@@ -52,7 +43,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark - operation
-- (void)startDownloadWithItem:(LLDownloadItem *)downloadItem{
+- (void)startDownloadWithItem:(LLDownloadItem *)downloadItem{    
     __block BOOL existInArray = NO;
     [self.downloadItemArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         LLDownloadItem *item = obj;
@@ -63,14 +54,11 @@
     }];
     if (!existInArray) {
         [self.downloadItemArray addObject:downloadItem];
-        downloadItem.state = LLDownloadStateWaiting;
         if([self canStartMoreDownloadItem]){
             [self startNextDownload];
         }
     }else{
-        NSLog(@"已经存在，直接开始");
         if([self canStartMoreDownloadItem]){
-            downloadItem.state = LLDownloadStateWaiting;
             [self startNextDownload];
         }
     }
@@ -78,24 +66,11 @@
 
 - (void)startNextDownload{
     LLDownloadItem *currentItem = [self.downloadItemArray firstObject];
-    if (currentItem == nil) {
-        return;
-    }
-    LLDownloadState state = currentItem.state;
-    if (state == LLDownloadStateInit || state == LLDownloadStateWaiting) {
-        DownloadOperation *operation = [[DownloadOperation alloc] initOperationWithItem:currentItem];
-        [self.downloadOperationQueue addOperation:operation];
-    }
-    switch (state) {
-        case LLDownloadStateInit:
-        case LLDownloadStateWaiting:
-        {
-            DownloadOperation *operation = [[DownloadOperation alloc] initOperationWithItem:currentItem];
+    if (currentItem) {
+        if (currentItem.state == LLDownloadStateReady || currentItem.state == LLDownloadStateWaiting) {
+            LLDownloadOperation *operation = [[LLDownloadOperation alloc] initOperationWithItem:currentItem];
             [self.downloadOperationQueue addOperation:operation];
         }
-            break;
-        default:
-            break;
     }
 }
 
@@ -106,8 +81,7 @@
 }
 
 - (void)pauseDownloadWithItem:(LLDownloadItem *)downloadItem{
-   [downloadItem.downloadOperation cancel];//只是取消了
-    downloadItem.state = LLDownloadStatePause;
+   [downloadItem.downloadOperation pause];//只是取消了
 }
 
 #pragma mark - private
@@ -141,7 +115,7 @@
     if (_downloadOperationQueue == nil) {
         _downloadOperationQueue = [[NSOperationQueue alloc] init];
         _downloadOperationQueue.maxConcurrentOperationCount = self.concurrentCount;
-        _downloadOperationQueue.name = @"LLDownloadOperationQueue";
+        _downloadOperationQueue.name = @"LLLLDownloadOperationQueue";
     }
     return _downloadOperationQueue;
 }

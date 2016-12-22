@@ -1,5 +1,5 @@
 //
-//  DownloadOperation.m
+//  LLDownloadOperation.m
 //  LLDownloadManager
 //
 //  Created by xiaohongjun on 2016/12/21.
@@ -9,19 +9,38 @@
 /*
  自定义NSOperation实现下载的功能。
  */
-
-#import "DownloadOperation.h"
+#import <sys/xattr.h>
+#import "LLDownloadOperation.h"
 #include <sys/param.h>
 #include <sys/mount.h>
-#import <sys/xattr.h>
 
-@interface DownloadOperation ()<NSURLConnectionDataDelegate>
+@interface LLDownloadOperation ()<NSURLConnectionDataDelegate>
 @property (nonatomic, weak) LLDownloadItem *downloadItem;
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *bufferData;
 @end
 
-@implementation DownloadOperation
+
+static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
+    switch (state) {
+        case LLDownloadStateReady:
+            return @"isReady";
+        case LLDownloadStateDownloading:
+            return @"isExecuting";
+        case LLDownloadStateCompleted:
+            return @"isFinished";
+        case LLDownloadStatePause:
+            return @"isPaused";
+        default: {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
+            return @"state";
+#pragma clang diagnostic pop
+        }
+    }
+}
+
+@implementation LLDownloadOperation
 
 + (NSThread *)downloadThread{
     static NSThread *_downloadThread;
@@ -46,6 +65,18 @@
     return self;
 }
 
+- (void)setState:(LLDownloadState)state {
+    NSString *oldStateKey = LLKeyPathFromOperationState(self.downloadItem.state);
+    NSString *newStateKey = LLKeyPathFromOperationState(state);
+    [self willChangeValueForKey:newStateKey];
+    [self willChangeValueForKey:oldStateKey];
+    self.downloadItem.state = state;
+    [self didChangeValueForKey:oldStateKey];
+    [self didChangeValueForKey:newStateKey];
+}
+
+
+
 /*
  将Operation加入到operationQueue之后，这个Operation并不会马上被调用，他的调度的顺序依赖优先级和当前的状态。
  为了避免在开始之前被取消了，先要判断是否取消掉了。
@@ -57,22 +88,15 @@
     NSURLRequest *request = [self buildRequest:self.downloadItem];
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
     [self.connection performSelector:@selector(start) onThread:[self.class downloadThread] withObject:nil waitUntilDone:NO];
+    [self setState:LLDownloadStateDownloading];
 }
-
-//- (void)main{
-//    if([self isCancelled]){
-//        return;
-//    }
-//    NSURLRequest *request = [self buildRequest:self.downloadItem];
-//    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
-//    [self.connection performSelector:@selector(start) onThread:[self.class downloadThread] withObject:nil waitUntilDone:NO];
-//}
 
 - (void)pause{
     if ([self isCancelled]) {
         return;
     }
     [self.connection cancel];
+    [self setState:LLDownloadStateCompleted];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadPauseNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
     });
@@ -112,9 +136,6 @@
     self.bufferData = [NSMutableData data];
 }
 
-/*
- 
- */
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     [self.bufferData appendData:data];
     self.downloadItem.downloadedFileSize += data.length;
@@ -147,22 +168,22 @@
     NSData *data = [[NSData alloc] initWithContentsOfFile:self.downloadItem.targetPath];
     NSLog(@"写入的文件的总的字节数是%lu",(unsigned long)data.length);
 #endif
-    self.downloadItem.state = LLDownloadStateCompleted;
+    [self setState:LLDownloadStateCompleted];
+    [super cancel];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
     });
-    
-    [super cancel];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:self.downloadItem.targetPath];
     [handler closeFile];
+    NSLog(@"error occur");
+    [super cancel];
+    [self setState:LLDownloadStateCompleted];
     dispatch_async(dispatch_get_main_queue(), ^{
          [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
     });
-    NSLog(@"error occur");
-    [super cancel];
 }
 
 
@@ -212,15 +233,18 @@
     return YES;
 }
 
-#pragma mark - getter
 - (NSString *)cacheFolder{
     NSString *cacheFolder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     return cacheFolder;
 }
 
-//- (BOOL)isFinished{
-//    return self.downloadItem.state == LLDownloadStateCompleted || [self isCancelled];
-//}
+#pragma mark - getter （和NSOperation执行相关的变量）
+- (BOOL)isFinished{
+    return self.downloadItem.state == LLDownloadStateCompleted || [self isCancelled];
+}
 
+- (BOOL)isExecuting {
+    return self.downloadItem.state == LLDownloadStateDownloading;
+}
 
 @end

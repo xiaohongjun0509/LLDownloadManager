@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LLDownloadItem.h"
 
-@interface DownloadManager : NSObject
+@interface LLDownloadManager : NSObject
 
 @property (nonatomic, assign) NSInteger concurrentCount;
 @property (nonatomic, assign) long long cacheBufferSize;

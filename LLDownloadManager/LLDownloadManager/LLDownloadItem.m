@@ -11,6 +11,8 @@
 #import <CommonCrypto/CommonDigest.h>
 
 
+
+
 @interface LLDownloadItem ()
 @property (nonatomic, copy) NSString *md5Id;
 @end
@@ -20,7 +22,7 @@
 - (instancetype)initWithDownloadPath:(NSString *)urlPath{
     if (self = [super init]) {
         _urlPath = urlPath;
-        _state = LLDownloadStateInit;
+        _state = LLDownloadStateReady;
 //        _targetPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     }
     return self;
@@ -46,6 +48,9 @@
 - (NSString *)md5Id{
     return [LLDownloadItem md5StringForString:self.urlPath];
 }
+
+
+
 
 #pragma mark - helper
 + (NSString *)md5StringForString:(NSString *)string {

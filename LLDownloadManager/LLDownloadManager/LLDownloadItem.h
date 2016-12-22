@@ -8,19 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString *const kLLDownloadUserInfo = @"LLDownloadItem";
+static NSString *const kLLDownloadUserInfo = @"kLLDownloadUserInfo";
 static NSString *const kLLDownloadErrorInfo = @"kLLDownloadNotificationErrorInfo";
 
 /*
  * 当前任务执行的状态
  */
 typedef NS_ENUM(NSInteger,LLDownloadState){
-    LLDownloadStateInit,
+    LLDownloadStateReady,
     LLDownloadStateWaiting,
     LLDownloadStateDownloading,
     LLDownloadStatePause,
-    LLDownloadStateCompleted,
-    LLDownloadStateError
+    LLDownloadStateCompleted
 };
 
 
@@ -29,21 +28,19 @@ typedef void(^LLDownloadProgressBlock)(LLDownloadItem *downloadItem, long long d
 typedef void(^LLDownloadComplitionBlock)(LLDownloadItem *downloadItem, NSError *error);
 
 
-@class DownloadOperation;
+@class LLDownloadOperation;
 @interface LLDownloadItem : NSObject
-@property (nonatomic, strong) DownloadOperation *downloadOperation;
+
+@property (nonatomic, strong, readonly) LLDownloadOperation *downloadOperation;
 @property (nonatomic, assign) LLDownloadState state;
+
 @property (nonatomic, assign) long long downloadedFileSize;
 @property (nonatomic, assign) long long totalFileSize;
-
 @property (nonatomic, copy) NSString *urlPath;
 @property (nonatomic, copy) NSString *targetPath;
 @property (nonatomic, copy) LLDownloadProgressBlock progressBlock;
 @property (nonatomic, copy) LLDownloadComplitionBlock complitionBlock;
 
 - (instancetype)initWithDownloadPath:(NSString *)path;
-
-#pragma mark - used for Download Manager
-@property (nonatomic, strong) NSURLConnection *connection;
 
 @end

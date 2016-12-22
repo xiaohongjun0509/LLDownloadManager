@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "LLDownloadItem.h"
-#import "DownloadManager.h"
+#import "LLDownloadManager.h"
 #import "TableViewCell.h"
 
 #define PATH @"http://sw.bos.baidu.com/sw-search-sp/software/5062682326178/Baiduyun_mac_2.0.0.dmg"
@@ -40,6 +40,8 @@
         
         [self.items addObject:item];
     }
+//    [[DownloadManager defaultManager] startDownloadWithItem:self.items[0]];
+    
 }
 
 
@@ -56,15 +58,15 @@
         wsCell.progressLabel.text = [NSString stringWithFormat:@"--%lld--%lld",read,total];
     };
     cell.startBlock = ^(LLDownloadItem *item){
-        [[DownloadManager defaultManager] startDownloadWithItem:item];
+        [[LLDownloadManager defaultManager] startDownloadWithItem:item];
     };
     
     cell.pauseBlock = ^(LLDownloadItem *item){
-        [[DownloadManager defaultManager] pauseDownloadWithItem:item];
+        [[LLDownloadManager defaultManager] pauseDownloadWithItem:item];
     };
     
     cell.cancelBlock = ^(LLDownloadItem *item){
-        [[DownloadManager defaultManager] cancelDownloadWithItem:item];
+        [[LLDownloadManager defaultManager] cancelDownloadWithItem:item];
     };
     
     
@@ -73,7 +75,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+    return 88;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

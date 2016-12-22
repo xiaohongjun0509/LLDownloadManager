@@ -25,10 +25,9 @@
 		B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B9D1E07F1F1000515E3 /* AFURLResponseSerialization.m */; };
 		B1620BA81E07F1F1000515E3 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620B9F1E07F1F1000515E3 /* AFURLSessionManager.m */; };
 		B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */; };
-		B1620BC51E0B774E000515E3 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BC01E0B774E000515E3 /* DownloadManager.m */; };
-		B1620BC61E0B774E000515E3 /* DownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BC21E0B774E000515E3 /* DownloadOperation.m */; };
+		B1620BC51E0B774E000515E3 /* LLDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BC01E0B774E000515E3 /* LLDownloadManager.m */; };
+		B1620BC61E0B774E000515E3 /* LLDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BC21E0B774E000515E3 /* LLDownloadOperation.m */; };
 		B1620BC71E0B774E000515E3 /* LLDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BC41E0B774E000515E3 /* LLDownloadItem.m */; };
-		B1620BCB1E0BA3DC000515E3 /* TestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1620BCA1E0BA3DC000515E3 /* TestOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,14 +65,12 @@
 		B1620B9F1E07F1F1000515E3 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		B1620BAD1E07F3D8000515E3 /* AFDownloadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDownloadRequestOperation.h; sourceTree = "<group>"; };
 		B1620BAE1E07F3D8000515E3 /* AFDownloadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDownloadRequestOperation.m; sourceTree = "<group>"; };
-		B1620BBF1E0B774E000515E3 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
-		B1620BC01E0B774E000515E3 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
-		B1620BC11E0B774E000515E3 /* DownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadOperation.h; sourceTree = "<group>"; };
-		B1620BC21E0B774E000515E3 /* DownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadOperation.m; sourceTree = "<group>"; };
+		B1620BBF1E0B774E000515E3 /* LLDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadManager.h; sourceTree = "<group>"; };
+		B1620BC01E0B774E000515E3 /* LLDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadManager.m; sourceTree = "<group>"; };
+		B1620BC11E0B774E000515E3 /* LLDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadOperation.h; sourceTree = "<group>"; };
+		B1620BC21E0B774E000515E3 /* LLDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadOperation.m; sourceTree = "<group>"; };
 		B1620BC31E0B774E000515E3 /* LLDownloadItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDownloadItem.h; sourceTree = "<group>"; };
 		B1620BC41E0B774E000515E3 /* LLDownloadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDownloadItem.m; sourceTree = "<group>"; };
-		B1620BC91E0BA3DC000515E3 /* TestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestOperation.h; sourceTree = "<group>"; };
-		B1620BCA1E0BA3DC000515E3 /* TestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,14 +166,12 @@
 		B1620BBE1E0B774E000515E3 /* LLDownloadManager */ = {
 			isa = PBXGroup;
 			children = (
-				B1620BBF1E0B774E000515E3 /* DownloadManager.h */,
-				B1620BC01E0B774E000515E3 /* DownloadManager.m */,
-				B1620BC11E0B774E000515E3 /* DownloadOperation.h */,
-				B1620BC21E0B774E000515E3 /* DownloadOperation.m */,
+				B1620BBF1E0B774E000515E3 /* LLDownloadManager.h */,
+				B1620BC01E0B774E000515E3 /* LLDownloadManager.m */,
+				B1620BC11E0B774E000515E3 /* LLDownloadOperation.h */,
+				B1620BC21E0B774E000515E3 /* LLDownloadOperation.m */,
 				B1620BC31E0B774E000515E3 /* LLDownloadItem.h */,
 				B1620BC41E0B774E000515E3 /* LLDownloadItem.m */,
-				B1620BC91E0BA3DC000515E3 /* TestOperation.h */,
-				B1620BCA1E0BA3DC000515E3 /* TestOperation.m */,
 			);
 			path = LLDownloadManager;
 			sourceTree = "<group>";
@@ -270,9 +265,9 @@
 				B1620BA51E07F1F1000515E3 /* AFURLConnectionOperation.m in Sources */,
 				B1620BA01E07F1F1000515E3 /* AFHTTPRequestOperation.m in Sources */,
 				B1620BA61E07F1F1000515E3 /* AFURLRequestSerialization.m in Sources */,
-				B1620BC61E0B774E000515E3 /* DownloadOperation.m in Sources */,
+				B1620BC61E0B774E000515E3 /* LLDownloadOperation.m in Sources */,
 				B1620BA21E07F1F1000515E3 /* AFHTTPSessionManager.m in Sources */,
-				B1620BC51E0B774E000515E3 /* DownloadManager.m in Sources */,
+				B1620BC51E0B774E000515E3 /* LLDownloadManager.m in Sources */,
 				B1620BA31E07F1F1000515E3 /* AFNetworkReachabilityManager.m in Sources */,
 				B1620BAF1E07F3D8000515E3 /* AFDownloadRequestOperation.m in Sources */,
 				B1620BA71E07F1F1000515E3 /* AFURLResponseSerialization.m in Sources */,
@@ -280,7 +275,6 @@
 				B1620BA81E07F1F1000515E3 /* AFURLSessionManager.m in Sources */,
 				B1620BC71E0B774E000515E3 /* LLDownloadItem.m in Sources */,
 				B1620B6F1E07E62F000515E3 /* main.m in Sources */,
-				B1620BCB1E0BA3DC000515E3 /* TestOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

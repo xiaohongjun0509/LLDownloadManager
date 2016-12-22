@@ -1,5 +1,5 @@
 //
-//  DownloadOperation.h
+//  LLDownloadOperation.h
 //  LLDownloadManager
 //
 //  Created by xiaohongjun on 2016/12/21.
@@ -17,10 +17,12 @@ static NSString *const kLLDownloadErrorNotification = @"LLDownloadErrorNotificat
 
 
 @class LLDownloadItem;
-@interface DownloadOperation : NSOperation
+@interface LLDownloadOperation : NSOperation
 
 @property (nonatomic, strong) NSString *cacheFolder;
 @property (nonatomic, assign) long long cacheBufferSize;
 
 - (instancetype)initOperationWithItem:(LLDownloadItem *)item;
+
+- (void)pause;
 @end
