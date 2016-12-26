@@ -15,6 +15,8 @@ static NSString *const kLLDownloadCancelNotification = @"LLDownloadCancelNotific
 static NSString *const kLLDownloadCompletedNotification = @"LLDownloadCompletedNotification";
 static NSString *const kLLDownloadErrorNotification = @"LLDownloadErrorNotification";
 
+static NSString *const kLLDownloadUpdateArchieveNotification = @"LLDownloadUpdateArchieveNotification";
+
 
 @class LLDownloadItem;
 @interface LLDownloadOperation : NSOperation

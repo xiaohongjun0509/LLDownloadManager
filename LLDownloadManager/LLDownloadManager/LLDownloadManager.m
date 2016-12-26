@@ -13,9 +13,9 @@
 #import "AFNetworkReachabilityManager.h"
 
 @interface LLDownloadManager ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
-@property (nonatomic, strong) NSMutableArray *downloadItemArray;
 @property (nonatomic, strong) NSOperationQueue *downloadOperationQueue;
 @property (nonatomic, strong) NSOperationQueue *fileOperationQueue;
+@property (nonatomic, strong) NSLock *lock;
 @end
 
 
@@ -43,7 +43,12 @@
                 [self pauseAllOperation];
             }
         }];
+        _lock = [NSLock new];
+        if ([self restoreDownloadInfoFromLocal]) {//本地恢复任务
+            [self.downloadItemArray addObjectsFromArray:[self restoreDownloadInfoFromLocal]];
+        }
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateItemsArray:) name:kLLDownloadCompletedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDownloadItemsToLocal) name:kLLDownloadUpdateArchieveNotification object:nil];
     }
     return self;
 }
@@ -52,8 +57,10 @@
     [self.downloadOperationQueue cancelAllOperations];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 #pragma mark - operation
-- (void)startDownloadWithItem:(LLDownloadItem *)downloadItem{    
+- (void)startDownloadWithItem:(LLDownloadItem *)downloadItem{
+    NSAssert(downloadItem, @"参数不能为空");
     __block BOOL existInArray = NO;
     [self.downloadItemArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         LLDownloadItem *item = obj;
@@ -64,6 +71,7 @@
     }];
     if (!existInArray) {
         [self.downloadItemArray addObject:downloadItem];
+        [self updateDownloadItemsToLocal];
         if([self canStartMoreDownloadItem]){
             [self startNextDownload];
         }
@@ -84,7 +92,6 @@
     }
 }
 
-
 - (void)cancelDownloadWithItem:(LLDownloadItem *)downloadItem{
         [downloadItem.downloadOperation cancel];
         [self cleanExistFileWithDownloadItem:downloadItem];
@@ -94,6 +101,7 @@
 - (void)pauseDownloadWithItem:(LLDownloadItem *)downloadItem{
     if (downloadItem.downloadOperation) {
         [downloadItem.downloadOperation pause];//只是取消了
+        [self updateDownloadItemsToLocal];
     }
 }
 
@@ -104,6 +112,9 @@
             [downloadItem.downloadOperation pause];
         }
     }];
+    
+//    [self.downloadItemArray removeObject:downloadItem];
+    [self updateDownloadItemsToLocal];
 }
 
 #pragma mark - private
@@ -145,6 +156,16 @@
     [self.fileOperationQueue addOperation:fileDeleteOperation];
 }
 
+- (NSArray *)restoreDownloadInfoFromLocal{
+     return [NSKeyedUnarchiver unarchiveObjectWithFile:[[self cacheFolder]  stringByAppendingPathComponent:@"localDownload.archiver"]];
+}
+
+- (void)updateDownloadItemsToLocal{
+    [self.lock lock];
+    [NSKeyedArchiver archiveRootObject:self.downloadItemArray toFile:[[self cacheFolder] stringByAppendingPathComponent:@"localDownload.archiver"]];
+    [self.lock unlock];
+}
+
 #pragma mark - getter
 - (NSMutableArray *)downloadItemArray{
     if (_downloadItemArray == nil) {
@@ -174,18 +195,14 @@
 #pragma mark - observer
 - (void)updateItemsArray:(NSNotification *)noti{
     LLDownloadItem *item = noti.userInfo[kLLDownloadUserInfo];
-    __block NSInteger index = NSNotFound;
-    [self.downloadItemArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        LLDownloadItem *downloadItem = obj;
-        if([item isEqual:downloadItem]){
-            index = idx;
-            *stop = YES;
-        }
-    }];
-    if (index != NSNotFound) {
-        [self.downloadItemArray removeObjectAtIndex:index];
+    NSError *error = [noti.userInfo objectForKey:kLLDownloadErrorInfo];
+    if (error) {//错误的处理
+        
+    }else if(item){
+        [self.downloadItemArray removeObject:item];
     }
     [self startNextDownload];
 }
+
 
 @end

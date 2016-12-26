@@ -221,8 +221,55 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "106"
             endingLineNumber = "106"
-            landmarkName = "-cancel"
+            landmarkName = "-pause"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__28-[LLDownloadOperation pause]_block_invoke"
+                  moduleName = "LLDownloadManager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/LLDownloadOperation.m"
+                  timestampString = "504436540.948388"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "371">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_"
+                  moduleName = "LLDownloadManager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/LLDownloadOperation.m"
+                  timestampString = "504436540.950447"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "51">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_"
+                  moduleName = "LLDownloadManager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/LLDownloadOperation.m"
+                  timestampString = "504436540.951792"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "29">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -237,6 +284,22 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "226"
             endingLineNumber = "226"
+            landmarkName = "-checkSpace:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
+            timestampString = "504436539.89191"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "-cacheFolder"
             landmarkType = "7">
          </BreakpointContent>
@@ -248,76 +311,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
-            timestampString = "504436170.923663"
+            timestampString = "504436539.89191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "-cleanExistFileWithDownloadItem:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
-            timestampString = "504436170.923663"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "-cleanExistFileWithDownloadItem:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[LLDownloadManager cleanExistFileWithDownloadItem:]"
-                  moduleName = "LLDownloadManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
-                  timestampString = "504436171.011984"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129"
-                  offsetFromSymbolStart = "64">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__52-[LLDownloadManager cleanExistFileWithDownloadItem:]_block_invoke"
-                  moduleName = "LLDownloadManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
-                  timestampString = "504436171.014566"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129"
-                  offsetFromSymbolStart = "12">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
-            timestampString = "504436177.910644"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-cancelDownloadWithItem:"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "-startDownloadWithItem:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
