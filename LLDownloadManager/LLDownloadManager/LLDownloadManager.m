@@ -85,8 +85,9 @@
 - (void)startNextDownload{
     LLDownloadItem *currentItem = [self.downloadItemArray firstObject];
     if (currentItem) {
-        if (currentItem.state == LLDownloadStateReady || currentItem.state == LLDownloadStateWaiting) {
+        if (currentItem.state == LLDownloadStateReady || currentItem.state == LLDownloadStateWaiting || currentItem.state == LLDownloadStatePause) {
             LLDownloadOperation *operation = [[LLDownloadOperation alloc] initOperationWithItem:currentItem];
+            currentItem.downloadOperation = operation;
             [self.downloadOperationQueue addOperation:operation];
         }
     }

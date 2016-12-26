@@ -20,7 +20,8 @@ typedef NS_ENUM(NSInteger,LLDownloadState){
     LLDownloadStateWaiting,
     LLDownloadStateDownloading,
     LLDownloadStatePause,
-    LLDownloadStateCompleted
+    LLDownloadStateCompleted,
+    LLDownloadStateError
 };
 
 
@@ -32,7 +33,7 @@ typedef void(^LLDownloadComplitionBlock)(LLDownloadItem *downloadItem, NSError *
 @class LLDownloadOperation;
 @interface LLDownloadItem : NSObject
 
-@property (nonatomic, strong, readonly) LLDownloadOperation *downloadOperation;
+@property (nonatomic, strong) LLDownloadOperation *downloadOperation;
 @property (nonatomic, assign) LLDownloadState state;
 
 @property (nonatomic, assign) long long downloadedFileSize;

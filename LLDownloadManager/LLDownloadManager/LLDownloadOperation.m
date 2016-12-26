@@ -28,9 +28,9 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
         case LLDownloadStateDownloading:
             return @"isExecuting";
         case LLDownloadStateCompleted:
-            return @"isFinished";
         case LLDownloadStatePause:
-            return @"isPaused";
+        case LLDownloadStateError:
+            return @"isFinished";
         default: {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunreachable-code"
@@ -46,15 +46,20 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     static NSThread *_downloadThread;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _downloadThread = [[NSThread alloc] initWithBlock:^{
-            NSRunLoop *runloop = [NSRunLoop currentRunLoop];
-            [runloop addPort:[NSPort port] forMode:NSRunLoopCommonModes];
-            [runloop run];
-        }];
+        _downloadThread = [[NSThread alloc] initWithTarget:self.class selector:@selector(setupRunLoop) object:nil];
         [_downloadThread setName:@"LLDownloadThread"];
         [_downloadThread start];
     });
     return _downloadThread;
+}
+
++ (void)setupRunLoop{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSRunLoop *runloop = [NSRunLoop currentRunLoop];
+        [runloop addPort:[NSPort port] forMode:NSRunLoopCommonModes];
+        [runloop run];
+    });
 }
 
 - (instancetype)initOperationWithItem:(LLDownloadItem *)item{
@@ -99,7 +104,7 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
         return;
     }
     [self.connection cancel];
-    [self setState:LLDownloadStateCompleted];
+    [self setState:LLDownloadStatePause];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadPauseNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadUpdateArchieveNotification object:nil userInfo:nil];
@@ -120,10 +125,11 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
 #pragma mark - delegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
-    
     if (self.downloadItem.fileName.length == 0) {
         self.downloadItem.fileName = res.suggestedFilename ? res.suggestedFilename : [self.downloadItem.targetPath lastPathComponent];
     }
+    
+    self.downloadItem.targetPath = [[self cacheFolder] stringByAppendingPathComponent:self.downloadItem.fileName];
     //获得当前下载内容的字节数。直接通过content-length来获取是有问题的。
     long long desireSize = 0;
     if([res.allHeaderFields.allKeys containsObject:@"Content-Range"]){
@@ -198,9 +204,10 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     [handler closeFile];
     NSLog(@"error occur---->%@",error);
     [super cancel];
-    [self setState:LLDownloadStateCompleted];
+    [self setState:LLDownloadStateError];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCompletedNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem,kLLDownloadErrorInfo : error}];
+         [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadUpdateArchieveNotification object:nil];
     });
 }
 
@@ -240,7 +247,7 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
 
 #pragma mark - getter （和NSOperation执行相关的变量）
 - (BOOL)isFinished{
-    return self.downloadItem.state == LLDownloadStateCompleted || [self isCancelled];
+    return self.downloadItem.state == LLDownloadStateCompleted || self.downloadItem.state == LLDownloadStatePause || [self isCancelled];
 }
 
 - (BOOL)isExecuting {

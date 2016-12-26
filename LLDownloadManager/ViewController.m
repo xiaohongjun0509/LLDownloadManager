@@ -25,15 +25,19 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"TableViewCell" bundle:nil] forCellReuseIdentifier:@"TableViewCell"];
-//    self.urls = [NSMutableArray array];
-//    [self.urls addObject:@"http://jaist.dl.sourceforge.net/project/machoview/MachOView-2.4.9200.dmg"];
-//    [self.urls addObject:@"http://m4.pc6.com/xuh3/BaiduNetdisk200.dmg"];
-//    [self.urls addObject:@"http://sw.bos.baidu.com/sw-search-sp/software/5062682326178/Baiduyun_mac_2.0.0.dmg"];
-//    self.items = [NSMutableArray array];
-//    for (int i = 0; i < self.urls.count; i ++) {
-//        LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:self.urls[i]];
-//        [self.items addObject:item];
-//    }    
+    self.urls = [NSMutableArray array];
+    [self.urls addObject:@"http://jaist.dl.sourceforge.net/project/machoview/MachOView-2.4.9200.dmg"];
+    [self.urls addObject:@"http://m4.pc6.com/xuh3/BaiduNetdisk200.dmg"];
+    [self.urls addObject:@"http://sw.bos.baidu.com/sw-search-sp/software/5062682326178/Baiduyun_mac_2.0.0.dmg"];
+    self.items = [NSMutableArray array];
+    for (int i = 0; i < self.urls.count; i ++) {
+        LLDownloadItem *item = [[LLDownloadItem alloc] initWithDownloadPath:self.urls[i]];
+        [self.items addObject:item];
+    }
+//    [self.items enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        [[LLDownloadManager defaultManager] startDownloadWithItem:obj];
+//    }];
+    [[LLDownloadManager defaultManager] startDownloadWithItem:self.items[0]];
 }
 
 

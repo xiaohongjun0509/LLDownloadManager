@@ -55,6 +55,7 @@
         self.downloadedFileSize = [[aDecoder decodeObjectForKey:@"downloadedFileSize"] longLongValue];
         self.state = [aDecoder decodeIntegerForKey:@"state"];
         self.urlPath = [aDecoder decodeObjectForKey:@"urlPath"];
+//        self.fileName = [aDecoder decodeObjectForKey:@"fileName"];
     }
     return self;
 }
@@ -65,6 +66,7 @@
     [aCoder encodeObject:@(self.totalFileSize) forKey:@"totalFileSize"];
     [aCoder encodeObject:@(self.downloadedFileSize) forKey:@"downloadedFileSize"];
     [aCoder encodeInteger:self.state forKey:@"state"];
+//    [aCoder encodeObject:self.fileName forKey:@"fileName"];
 }
 
 
