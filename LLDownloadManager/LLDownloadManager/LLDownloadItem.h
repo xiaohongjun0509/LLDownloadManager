@@ -10,6 +10,7 @@
 
 static NSString *const kLLDownloadUserInfo = @"kLLDownloadUserInfo";
 static NSString *const kLLDownloadErrorInfo = @"kLLDownloadNotificationErrorInfo";
+static NSString *const kLLDownloadSpaceInfo = @"kLLDownloadNotificationSpaceInfo";
 
 /*
  * 当前任务执行的状态
@@ -38,6 +39,7 @@ typedef void(^LLDownloadComplitionBlock)(LLDownloadItem *downloadItem, NSError *
 @property (nonatomic, assign) long long totalFileSize;
 @property (nonatomic, copy) NSString *urlPath;
 @property (nonatomic, copy) NSString *targetPath;
+@property (nonatomic, copy) NSString *fileName;
 @property (nonatomic, copy) LLDownloadProgressBlock progressBlock;
 @property (nonatomic, copy) LLDownloadComplitionBlock complitionBlock;
 

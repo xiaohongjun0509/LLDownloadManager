@@ -10,9 +10,6 @@
 #import "objc/runtime.h"
 #import <CommonCrypto/CommonDigest.h>
 
-
-
-
 @interface LLDownloadItem ()
 @property (nonatomic, copy) NSString *md5Id;
 @end

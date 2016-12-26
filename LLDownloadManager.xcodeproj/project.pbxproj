@@ -51,8 +51,8 @@
 		B1620B911E07F1F1000515E3 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		B1620B921E07F1F1000515E3 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		B1620B931E07F1F1000515E3 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
-		B1620B941E07F1F1000515E3 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
-		B1620B951E07F1F1000515E3 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		B1620B941E07F1F1000515E3 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworkReachabilityManager.h; path = ../AFNetworking/AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		B1620B951E07F1F1000515E3 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFNetworkReachabilityManager.m; path = ../AFNetworking/AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
 		B1620B961E07F1F1000515E3 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
 		B1620B971E07F1F1000515E3 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
 		B1620B981E07F1F1000515E3 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
@@ -138,8 +138,6 @@
 				B1620B911E07F1F1000515E3 /* AFHTTPSessionManager.h */,
 				B1620B921E07F1F1000515E3 /* AFHTTPSessionManager.m */,
 				B1620B931E07F1F1000515E3 /* AFNetworking.h */,
-				B1620B941E07F1F1000515E3 /* AFNetworkReachabilityManager.h */,
-				B1620B951E07F1F1000515E3 /* AFNetworkReachabilityManager.m */,
 				B1620B961E07F1F1000515E3 /* AFSecurityPolicy.h */,
 				B1620B971E07F1F1000515E3 /* AFSecurityPolicy.m */,
 				B1620B981E07F1F1000515E3 /* AFURLConnectionOperation.h */,
@@ -172,6 +170,8 @@
 				B1620BC21E0B774E000515E3 /* LLDownloadOperation.m */,
 				B1620BC31E0B774E000515E3 /* LLDownloadItem.h */,
 				B1620BC41E0B774E000515E3 /* LLDownloadItem.m */,
+				B1620B941E07F1F1000515E3 /* AFNetworkReachabilityManager.h */,
+				B1620B951E07F1F1000515E3 /* AFNetworkReachabilityManager.m */,
 			);
 			path = LLDownloadManager;
 			sourceTree = "<group>";

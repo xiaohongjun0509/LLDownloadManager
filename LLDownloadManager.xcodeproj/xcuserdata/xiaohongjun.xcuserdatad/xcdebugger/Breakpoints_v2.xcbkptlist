@@ -113,53 +113,6 @@
             endingLineNumber = "155"
             landmarkName = "-connection:didReceiveData:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__47-[DownloadOperation connection:didReceiveData:]_block_invoke"
-                  moduleName = "LLDownloadManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/DownloadOperation.m"
-                  timestampString = "504103678.966652"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "155"
-                  endingLineNumber = "155"
-                  offsetFromSymbolStart = "325">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_.142"
-                  moduleName = "LLDownloadManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/DownloadOperation.m"
-                  timestampString = "504103678.968173"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "155"
-                  endingLineNumber = "155"
-                  offsetFromSymbolStart = "51">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.143"
-                  moduleName = "LLDownloadManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/DownloadOperation.m"
-                  timestampString = "504103678.969683"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "155"
-                  endingLineNumber = "155"
-                  offsetFromSymbolStart = "29">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -253,6 +206,118 @@
             startingLineNumber = "68"
             endingLineNumber = "68"
             landmarkName = "-startNextDownload"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLDownloadManager/LLDownloadManager/LLDownloadOperation.m"
+            timestampString = "504434249.340268"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "-cancel"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLDownloadManager/LLDownloadManager/LLDownloadOperation.m"
+            timestampString = "504436091.711079"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "-cacheFolder"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
+            timestampString = "504436170.923663"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "-cleanExistFileWithDownloadItem:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
+            timestampString = "504436170.923663"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "-cleanExistFileWithDownloadItem:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[LLDownloadManager cleanExistFileWithDownloadItem:]"
+                  moduleName = "LLDownloadManager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
+                  timestampString = "504436171.011984"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "129"
+                  endingLineNumber = "129"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[LLDownloadManager cleanExistFileWithDownloadItem:]_block_invoke"
+                  moduleName = "LLDownloadManager"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xhj/Documents/mycode/LLDownloadManager/LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
+                  timestampString = "504436171.014566"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "129"
+                  endingLineNumber = "129"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LLDownloadManager/LLDownloadManager/LLDownloadManager.m"
+            timestampString = "504436177.910644"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "-cancelDownloadWithItem:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

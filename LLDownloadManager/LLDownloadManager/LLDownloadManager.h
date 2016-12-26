@@ -13,6 +13,7 @@
 
 @property (nonatomic, assign) NSInteger concurrentCount;
 @property (nonatomic, assign) long long cacheBufferSize;
+@property (nonatomic, assign) BOOL allowDownloadViaWWAN;
 
 + (instancetype)defaultManager;
 - (void)startDownloadWithItem:(LLDownloadItem *)downloadItem;

@@ -107,7 +107,6 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
         return;
     }
     [self.connection cancel];
-    [self cleanDownloadItem:self.downloadItem];
     dispatch_async(dispatch_get_main_queue(), ^{
          [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadCancelNotification object:nil userInfo:@{kLLDownloadUserInfo : self.downloadItem}];
     });
@@ -116,6 +115,10 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
 #pragma mark - delegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
+    
+    if (self.downloadItem.fileName.length == 0) {
+        self.downloadItem.fileName = res.suggestedFilename ? res.suggestedFilename : [self.downloadItem.targetPath lastPathComponent];
+    }
     //获得当前下载内容的字节数。直接通过content-length来获取是有问题的。
     long long desireSize = 0;
     if([res.allHeaderFields.allKeys containsObject:@"Content-Range"]){
@@ -129,6 +132,9 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     }
     if(![self checkSpace:desireSize]){
         [connection cancel];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLLDownloadSpaceInfo object:nil];
+        });
     }
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.downloadItem.targetPath] == NO) {
         [[NSFileManager defaultManager] createFileAtPath:self.downloadItem.targetPath contents:nil attributes:nil];
@@ -186,19 +192,14 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     });
 }
 
-
-
 #pragma mark - private
 - (NSMutableURLRequest *)buildRequest:(LLDownloadItem *)downloadItem{
-    NSString *downloadUrl = downloadItem.urlPath;
-    NSString *fileName = [downloadUrl lastPathComponent];
-    NSString *fullPath = [[self cacheFolder] stringByAppendingPathComponent:fileName];
-    if (downloadItem.targetPath == nil) {
-        downloadItem.targetPath = fullPath;
+    if (!downloadItem.targetPath) {
+        downloadItem.targetPath = [[self cacheFolder] stringByAppendingPathComponent:downloadItem.fileName];
     }
     long long offset = 0;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
-        offset = [NSData dataWithContentsOfFile:fullPath].length;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:downloadItem.targetPath]) {
+        offset = [NSData dataWithContentsOfFile:downloadItem.targetPath].length;
     }
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:downloadItem.urlPath] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
     if (offset > 0) {
@@ -209,20 +210,7 @@ static inline NSString * LLKeyPathFromOperationState(LLDownloadState state) {
     return request;
 }
 
-- (void)cleanDownloadItem:(LLDownloadItem *)item{
-    NSError *error = nil;
-    NSFileHandle *handler = [NSFileHandle fileHandleForWritingAtPath:self.downloadItem.targetPath];
-    if (handler) {
-        [handler closeFile];
-    }
-    
-    [[NSFileManager defaultManager] removeItemAtPath:item.targetPath error:&error];
-    if (error == nil) {
-        NSLog(@"删除临时文件成功");
-    }else{
-        NSLog(@"删除临时文件失败");
-    }
-}
+
 
 - (BOOL)checkSpace:(long long)space{
     struct statfs buf;
